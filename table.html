@@ -70,6 +70,10 @@
 
   footer{margin-top:24px;font-family:ui-monospace,Menlo,monospace;font-size:10.5px;
     letter-spacing:.05em;color:var(--ink-soft);}
+  .legend{display:flex;flex-wrap:wrap;gap:14px 20px;margin-bottom:12px;
+    padding-bottom:12px;border-bottom:1px solid var(--rule);}
+  .legend span.item{display:inline-flex;align-items:center;gap:7px;}
+  .legend .badge{margin-left:0;}
   #warn{display:none;border:1px solid #A8422F;background:rgba(168,66,47,.09);
     padding:10px 14px;margin-bottom:16px;font-size:13.5px;}
   @media (max-width:560px){ .c-name{min-width:150px;} }
@@ -160,9 +164,9 @@ rows.forEach(p=>{
 
   const nm=document.createElement("td"); nm.className="c-name";
   const badges=[];
-  if(activeSet.has(p.n)) badges.push('<span class="badge act">в палитре</span>');
-  if(codes.size===0)     badges.push('<span class="badge mineral">натуральный минерал</span>');
-  else if(codes.size===1)badges.push('<span class="badge mono">монопигмент</span>');
+  if(activeSet.has(p.n)) badges.push('<span class="badge act" title="ношу в палитре">in use</span>');
+  if(codes.size===0)     badges.push('<span class="badge mineral" title="натуральный минерал">mineral</span>');
+  else if(codes.size===1)badges.push('<span class="badge mono" title="монопигмент — один пигмент">mono</span>');
   nm.innerHTML=`<div class="nm">${p.n}${badges.join("")}</div>`
     +`<div class="ru">${p.ru||""}</div>`
     +`<div class="meta">${p.brand}${p.code?" · №"+p.code:""}</div>`;
@@ -197,7 +201,12 @@ function plural(k,one,few,many){
 const shared=COLS.filter(c=>useCount[c]>1).length;
 const mono=rows.filter(p=>codesOf(p).length===1).length;
 const mineral=rows.filter(p=>codesOf(p).length===0).length;
-document.getElementById("foot").textContent=
+document.getElementById("foot").innerHTML=
+  `<div class="legend">`+
+    `<span class="item"><span class="badge act">in use</span> ношу в дорожной палитре</span>`+
+    `<span class="item"><span class="badge mono">mono</span> монопигмент — один пигмент</span>`+
+    `<span class="item"><span class="badge mineral">mineral</span> натуральный минерал, без CI-кода</span>`+
+  `</div>`+
   `Красок: ${rows.length} · монопигментных: ${mono} · натуральных минералов: ${mineral} · `+
   `уникальных пигментов: ${COLS.length} · общих (в ≥2 красках): ${shared}. Данные из data.js.`;
 </script>
