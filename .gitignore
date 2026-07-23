@@ -9,5 +9,3 @@ Thumbs.db
 .idea/
 .vscode/
 
-# устаревшая версия страницы (заменена на index.html + data.js)
-palitra-krug.html

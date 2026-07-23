@@ -52,6 +52,8 @@
     letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--rule);
     border-radius:3px;padding:0 4px;margin-left:6px;color:var(--ink-soft);vertical-align:1px;}
   .badge.act{border-color:#3B7A46;color:#2f6b3a;background:rgba(59,122,70,.08);}
+  .badge.mono{border-color:#3B5A8A;color:#33507e;background:rgba(59,90,138,.10);}
+  .badge.mineral{border-color:#8A5A34;color:#7a4f2e;background:rgba(138,90,52,.11);}
 
   /* заголовки пигментных столбцов */
   th.pig{font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.02em;
@@ -63,7 +65,6 @@
   .dot{display:inline-block;width:13px;height:13px;border-radius:50%;
     border:1px solid rgba(0,0,0,.25);transform:scale(0);transition:transform .12s;}
   td.col-sel{background:rgba(160,150,130,.28)!important;}
-  .mineral{color:var(--ink-soft);font-style:italic;font-size:12px;}
 
   footer{margin-top:24px;font-family:ui-monospace,Menlo,monospace;font-size:10.5px;
     letter-spacing:.05em;color:var(--ink-soft);}
@@ -156,10 +157,12 @@ rows.forEach(p=>{
   tr.appendChild(sw);
 
   const nm=document.createElement("td"); nm.className="c-name";
-  const badge=activeSet.has(p.n)?'<span class="badge act">в палитре</span>':"";
-  const mineral=codes.size===0?'<span class="mineral"> · натуральный минерал</span>':"";
-  nm.innerHTML=`<div class="nm">${p.n}${badge}</div>`
-    +`<div class="ru">${p.ru||""}${mineral}</div>`
+  const badges=[];
+  if(activeSet.has(p.n)) badges.push('<span class="badge act">в палитре</span>');
+  if(codes.size===0)     badges.push('<span class="badge mineral">натуральный минерал</span>');
+  else if(codes.size===1)badges.push('<span class="badge mono">монопигмент</span>');
+  nm.innerHTML=`<div class="nm">${p.n}${badges.join("")}</div>`
+    +`<div class="ru">${p.ru||""}</div>`
     +`<div class="meta">${p.brand}${p.code?" · №"+p.code:""}</div>`;
   tr.appendChild(nm);
 
@@ -190,9 +193,11 @@ function plural(k,one,few,many){
 }
 
 const shared=COLS.filter(c=>useCount[c]>1).length;
+const mono=rows.filter(p=>codesOf(p).length===1).length;
+const mineral=rows.filter(p=>codesOf(p).length===0).length;
 document.getElementById("foot").textContent=
-  `Красок: ${rows.length} · уникальных пигментов: ${COLS.length} · общих (в ≥2 красках): ${shared}. `+
-  `Данные из data.js.`;
+  `Красок: ${rows.length} · монопигментных: ${mono} · натуральных минералов: ${mineral} · `+
+  `уникальных пигментов: ${COLS.length} · общих (в ≥2 красках): ${shared}. Данные из data.js.`;
 </script>
 </body>
 </html>
