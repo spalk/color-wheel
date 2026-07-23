@@ -59,6 +59,14 @@
         transition:opacity .2s,stroke .2s,stroke-width .2s;}
   .pair.on{opacity:1;stroke:var(--ink);stroke-width:1.8;stroke-dasharray:none;}
   .ring{fill:none;stroke:var(--rule);}
+  .wedge{stroke:var(--paper);stroke-width:1.5;opacity:.82;transition:opacity .2s;}
+  .wedge.dim{opacity:.28;}
+  .wedge.comp{opacity:1;stroke:var(--ink);stroke-width:2;}
+  .thlbl{
+    font-family:ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:.1em;
+    text-transform:uppercase;fill:var(--ink-soft);
+  }
+  .ghost{opacity:.9;}
   .corezone{fill:rgba(160,152,136,.16);stroke:var(--rule);stroke-dasharray:2 3;}
   .zonelbl{
     font-family:ui-monospace,Menlo,monospace;font-size:8.5px;
@@ -143,6 +151,7 @@
 <div class="tabs">
   <button id="tab-all" class="on"></button>
   <button id="tab-act"></button>
+  <button id="tab-theory"></button>
 </div>
 
 <svg id="wheel" viewBox="0 0 720 510" role="img" aria-label="Цветовой круг палитры">
@@ -196,6 +205,15 @@ const pt=(a,r)=>[CX+r*Math.sin(a*Math.PI/180), CY-r*Math.cos(a*Math.PI/180)];
 const el=(t,at)=>{const e=document.createElementNS("http://www.w3.org/2000/svg",t);
   for(const k in at)e.setAttribute(k,at[k]);return e;};
 
+// кольцевой сектор от угла a0 до a1 (по часовой), радиусы ri..ro
+function wedgePath(a0,a1,ri,ro){
+  const [ox0,oy0]=pt(a0,ro),[ox1,oy1]=pt(a1,ro);
+  const [ix1,iy1]=pt(a1,ri),[ix0,iy0]=pt(a0,ri);
+  return `M${ox0} ${oy0} A${ro} ${ro} 0 0 1 ${ox1} ${oy1}`
+       + `L${ix1} ${iy1} A${ri} ${ri} 0 0 0 ${ix0} ${iy0} Z`;
+}
+const nearestSector=a=>Math.round(((a%360)+360)%360/30)%12*30;
+
 /* ---------- разведение подписей по вертикали ---------- */
 function spread(list,gap,top,bot){
   if(!list.length) return;
@@ -219,6 +237,7 @@ const g=Object.fromEntries(Object.entries(G).map(([k,v])=>[k,document.getElement
 
 let VIEW=[];       // видимые пигменты
 let selected=null;
+let MODE="all";    // all | act | theory
 
 function drawWheel(names){
   Object.values(g).forEach(n=>n.replaceChildren());
@@ -262,6 +281,60 @@ function drawWheel(names){
   else if(selected) select(selected);
 }
 
+/* ---------- теоретический круг ---------- */
+const RIN=110;   // внутренний радиус цветного кольца
+function drawTheory(){
+  Object.values(g).forEach(n=>n.replaceChildren());
+  VIEW=PIGMENTS.slice();
+
+  // 12 секторов-образцов
+  THEORY.forEach(s=>{
+    const w=el("path",{d:wedgePath(s.a-14,s.a+14,RIN,R),fill:s.hex,
+      class:"wedge","data-a":s.a});
+    g.rings.appendChild(w);
+  });
+  // сердцевина — глушители
+  g.rings.appendChild(el("circle",{cx:CX,cy:CY,r:R*.30,class:"corezone","stroke-width":.8}));
+  const zl=el("text",{x:CX,y:CY+3,class:"zonelbl","text-anchor":"middle"});
+  zl.textContent="глушители"; g.rings.appendChild(zl);
+
+  // подписи 6 главных тонов снаружи
+  THEORY_LABELS.forEach(l=>{
+    const [lx,ly]=pt(l.a,R+22);
+    const t=el("text",{x:lx,y:ly+3.4,class:"thlbl","text-anchor":"middle"});
+    t.textContent=l.t; g.labels.appendChild(t);
+  });
+
+  // все пигменты поверх — маленькими точками, видно охват и дыры
+  PIGMENTS.forEach(p=>{
+    const [dx,dy]=pt(p.a,R*p.c);
+    g.dots.appendChild(el("circle",{cx:dx,cy:dy,r:5.5,fill:p.hex,
+      stroke:"rgba(0,0,0,.4)","stroke-width":.8,class:"dot ghost","data-n":p.n}));
+  });
+
+  document.querySelectorAll(".dot").forEach(n=>
+    n.addEventListener("click",()=>select(n.dataset.n)));
+
+  if(selected) select(selected); else clearPanel();
+}
+
+// подсветить сектор-комплемент и провести линию через центр
+function markComplement(p){
+  document.querySelectorAll(".wedge").forEach(w=>w.classList.remove("dim","comp"));
+  document.querySelectorAll(".pair").forEach(l=>{
+    if(l.dataset.p===undefined) l.remove();      // только временную линию комплемента
+  });
+  if(!p) return;
+  const opp=nearestSector(p.a+180);
+  document.querySelectorAll(".wedge").forEach(w=>{
+    const wa=+w.dataset.a;
+    if(wa===opp) w.classList.add("comp");
+    else if(wa!==nearestSector(p.a)) w.classList.add("dim");
+  });
+  const [dx,dy]=pt(p.a,R*p.c), [ex,ey]=pt(p.a+180,R);
+  g.pairs.appendChild(el("line",{x1:dx,y1:dy,x2:ex,y2:ey,class:"pair on"}));
+}
+
 /* ---------- панель ---------- */
 const nameEl=document.getElementById("pname"), chip=document.getElementById("pchip"),
       meta=document.getElementById("pmeta"), note=document.getElementById("pnote"),
@@ -279,6 +352,7 @@ function clearPanel(){
   document.querySelectorAll(".lbl.on").forEach(l=>l.classList.remove("on"));
   document.querySelectorAll(".dot").forEach(d=>d.setAttribute("stroke-width",.8));
   document.querySelectorAll(".rec.hit").forEach(r=>r.classList.remove("hit"));
+  markComplement(null);
 }
 
 function setName(txt){
@@ -321,6 +395,7 @@ function select(n){
     : "В памятке пока не задействован.";
 
   document.querySelectorAll(".pair").forEach(l=>{
+    if(l.dataset.p===undefined) return;          // теоретическая линия комплемента
     const [a,b]=PAIRS[+l.dataset.p];
     l.classList.toggle("on",a===n||b===n);
   });
@@ -329,6 +404,8 @@ function select(n){
     d.setAttribute("stroke-width",d.dataset.n===n?2.4:.8));
   document.querySelectorAll(".rec").forEach(r=>
     r.classList.toggle("hit",(r.dataset.mix||"").split("|").includes(n)));
+
+  if(MODE==="theory") markComplement(p);
 }
 
 function plural(k,one,few,many){
@@ -392,18 +469,24 @@ function drawNotes(){
 }
 
 /* ---------- вкладки ---------- */
-const tabAll=document.getElementById("tab-all"), tabAct=document.getElementById("tab-act");
-tabAll.textContent=`Всё в наличии (${PIGMENTS.length})`;
-tabAct.textContent=`В палитре (${ACTIVE.length})`;
+const tabs={
+  all:   {el:document.getElementById("tab-all"),    txt:`Всё в наличии (${PIGMENTS.length})`},
+  act:   {el:document.getElementById("tab-act"),    txt:`В палитре (${ACTIVE.length})`},
+  theory:{el:document.getElementById("tab-theory"), txt:"Теоретический"},
+};
+const leadEl=document.querySelector(".lead");
+const LEAD_WHEEL="Чем ближе пигмент к центру, тем он глуше: в середине живут не цвета, а глушители. Пунктир соединяет комплементарные пары — те, что гасят друг друга в серое. Нажмите на точку.";
+const LEAD_THEORY="Эталонный круг всех тонов. Точки — твои краски: видно, какие тона покрыты, а где дыры. Нажми на краску — напротив загорится её комплемент, тон, который гасит её в серое.";
 
 function show(which){
-  const all = which==="all";
-  tabAll.classList.toggle("on",all);
-  tabAct.classList.toggle("on",!all);
-  drawWheel(all ? PIGMENTS.map(p=>p.n) : ACTIVE);
+  MODE=which;
+  for(const k in tabs) tabs[k].el.classList.toggle("on",k===which);
+  leadEl.textContent = which==="theory" ? LEAD_THEORY : LEAD_WHEEL;
+  if(which==="theory") drawTheory();
+  else drawWheel(which==="all" ? PIGMENTS.map(p=>p.n) : ACTIVE);
 }
-tabAll.addEventListener("click",()=>show("all"));
-tabAct.addEventListener("click",()=>show("act"));
+for(const k in tabs){ tabs[k].el.textContent=tabs[k].txt;
+  tabs[k].el.addEventListener("click",()=>show(k)); }
 
 drawRecipes();
 drawNotes();
