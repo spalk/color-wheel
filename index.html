@@ -287,19 +287,23 @@ function drawWheel(names){
 }
 
 /* ---------- теоретический круг ---------- */
-const RIN=110;   // внутренний радиус цветного кольца
 function drawTheory(){
   Object.values(g).forEach(n=>n.replaceChildren());
   VIEW=PIGMENTS.slice();
 
-  // 12 секторов-образцов
-  THEORY.forEach(s=>{
-    const w=el("path",{d:wedgePath(s.a-14,s.a+14,RIN,R),fill:s.hex,
-      class:"wedge","data-a":s.a});
-    g.rings.appendChild(w);
+  // 12 секторов × кольца по насыщенности: обод сочный, внутрь глушится к бумаге
+  const CORE=R*.30;
+  THEORY_RINGS.forEach((ring,idx)=>{
+    const rOut=R*ring.rf;
+    const rIn=idx<THEORY_RINGS.length-1 ? R*THEORY_RINGS[idx+1].rf : CORE;
+    ring.hex.forEach((hx,k)=>{
+      const a=k*30;
+      g.rings.appendChild(el("path",{d:wedgePath(a-14,a+14,rIn,rOut),
+        fill:hx,class:"wedge","data-a":a}));
+    });
   });
   // сердцевина — глушители
-  g.rings.appendChild(el("circle",{cx:CX,cy:CY,r:R*.30,class:"corezone","stroke-width":.8}));
+  g.rings.appendChild(el("circle",{cx:CX,cy:CY,r:CORE,class:"corezone","stroke-width":.8}));
   const zl=el("text",{x:CX,y:CY+3,class:"zonelbl","text-anchor":"middle"});
   zl.textContent="глушители"; g.rings.appendChild(zl);
 
