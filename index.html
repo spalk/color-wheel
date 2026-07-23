@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Палитра на цветовом круге</title>
+<style>
+  :root{
+    --paper:#E6E3DA;
+    --paper-deep:#D8D4C8;
+    --ink:#2A2724;
+    --ink-soft:#6B655C;
+    --rule:#B9B3A5;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    background-image:
+      radial-gradient(circle at 18% 12%, rgba(255,255,255,.55), transparent 42%),
+      radial-gradient(circle at 82% 78%, rgba(150,143,128,.20), transparent 46%);
+    background-attachment:fixed;
+    color:var(--ink);
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    line-height:1.5;
+    padding:28px 18px 64px;
+  }
+  .wrap{max-width:820px;margin:0 auto;}
+  header{border-bottom:1px solid var(--rule);padding-bottom:16px;margin-bottom:20px;}
+  h1{font-size:clamp(24px,5.5vw,36px);font-weight:600;letter-spacing:-.01em;margin:0 0 6px;}
+  .sub{
+    font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-soft);
+  }
+  .lead{margin:0 0 18px;font-size:15px;color:var(--ink-soft);max-width:56ch;}
+
+  /* ---- переключатель кругов ---- */
+  .tabs{display:flex;gap:0;margin:0 0 14px;border:1px solid var(--rule);width:fit-content;}
+  .tabs button{
+    font:inherit;font-size:13px;background:none;border:none;cursor:pointer;
+    padding:8px 16px;color:var(--ink-soft);
+    border-right:1px solid var(--rule);
+  }
+  .tabs button:last-child{border-right:none;}
+  .tabs button.on{background:rgba(255,255,255,.62);color:var(--ink);font-weight:600;}
+  .tabs button:hover:not(.on){background:rgba(255,255,255,.32);}
+
+  svg{display:block;width:100%;height:auto;}
+  .dot{cursor:pointer;transition:r .15s ease;}
+  .dot:hover{r:11;}
+  .lbl{
+    font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    font-size:9.5px;fill:var(--ink-soft);letter-spacing:.02em;cursor:pointer;
+    -webkit-user-select:none;user-select:none;
+  }
+  .lbl.on{fill:var(--ink);font-weight:700;}
+  .leader{stroke:var(--rule);stroke-width:.6;fill:none;}
+  .pair{stroke:#8C8375;stroke-width:1;stroke-dasharray:3 4;opacity:.45;
+        transition:opacity .2s,stroke .2s,stroke-width .2s;}
+  .pair.on{opacity:1;stroke:var(--ink);stroke-width:1.8;stroke-dasharray:none;}
+  .ring{fill:none;stroke:var(--rule);}
+  .corezone{fill:rgba(160,152,136,.16);stroke:var(--rule);stroke-dasharray:2 3;}
+  .zonelbl{
+    font-family:ui-monospace,Menlo,monospace;font-size:8.5px;
+    fill:var(--ink-soft);letter-spacing:.12em;text-transform:uppercase;
+  }
+
+  #panel{
+    margin-top:16px;border:1px solid var(--rule);
+    background:rgba(255,255,255,.4);padding:16px 18px;min-height:112px;
+  }
+  #pname{font-size:19px;font-weight:600;margin:0 0 2px;display:flex;align-items:center;gap:9px;}
+  #pchip{width:16px;height:16px;border:1px solid rgba(0,0,0,.25);flex:0 0 auto;}
+  #pmeta{
+    font-family:ui-monospace,Menlo,monospace;font-size:10.5px;
+    letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 9px;
+  }
+  #pnote{margin:0;font-size:14.5px;}
+  #ppairs{margin:8px 0 0;font-size:14px;color:var(--ink-soft);}
+  #ppairs b{color:var(--ink);font-weight:600;}
+  #puses{margin:8px 0 0;font-size:13.5px;color:var(--ink-soft);}
+  .hint{font-style:italic;color:var(--ink-soft);}
+
+  h2{
+    font-size:12px;font-family:ui-monospace,Menlo,monospace;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);
+    font-weight:400;margin:34px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--rule);
+  }
+  h3{
+    font-size:15.5px;font-weight:600;margin:22px 0 8px;
+  }
+  h3:first-of-type{margin-top:0;}
+
+  /* ---- рецепты ---- */
+  .rec{
+    margin:0 0 11px;padding-left:14px;border-left:2px solid transparent;
+    transition:border-color .2s,background .2s;
+  }
+  .rec.hit{border-left-color:var(--ink);background:rgba(255,255,255,.4);}
+  .rec.na{opacity:.45;}
+  .mix{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin-bottom:2px;}
+  .sw{
+    width:13px;height:13px;border:1px solid rgba(0,0,0,.28);border-radius:2px;
+    flex:0 0 auto;cursor:pointer;
+  }
+  .sw.gone{border-style:dashed;opacity:.5;}
+  .mixname{font-size:14.5px;font-weight:600;}
+  .plus{color:var(--ink-soft);font-size:13px;margin:0 1px;}
+  .rec p{margin:0;font-size:14px;color:var(--ink-soft);}
+  .tag{
+    font-family:ui-monospace,Menlo,monospace;font-size:9px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--ink-soft);border:1px solid var(--rule);
+    padding:1px 5px;margin-left:4px;white-space:nowrap;
+  }
+  .gap{margin-top:16px;border-left:2px solid var(--ink);padding:2px 0 2px 14px;font-size:14.5px;}
+  #warn{
+    display:none;border:1px solid #A8422F;background:rgba(168,66,47,.09);
+    padding:10px 14px;margin-bottom:16px;font-size:13.5px;
+  }
+  footer{
+    margin-top:36px;padding-top:12px;border-top:1px solid var(--rule);
+    font-family:ui-monospace,Menlo,monospace;font-size:10.5px;
+    letter-spacing:.05em;color:var(--ink-soft);
+  }
+  @media (max-width:560px){
+    .lbl{font-size:11px;}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Палитра на круге</h1>
+  <div class="sub">Угол = цветовой тон · Радиус = насыщенность</div>
+</header>
+
+<div id="warn"></div>
+
+<p class="lead">Чем ближе пигмент к центру, тем он глуше: в середине живут не цвета, а глушители. Пунктир соединяет комплементарные пары — те, что гасят друг друга в серое. Нажмите на точку.</p>
+
+<div class="tabs">
+  <button id="tab-all" class="on"></button>
+  <button id="tab-act"></button>
+</div>
+
+<svg id="wheel" viewBox="0 0 720 510" role="img" aria-label="Цветовой круг палитры">
+  <g id="rings"></g>
+  <g id="pairs"></g>
+  <g id="leaders"></g>
+  <g id="dots"></g>
+  <g id="labels"></g>
+</svg>
+
+<div id="panel">
+  <p id="pname"><span id="pchip" style="background:#B9B3A5"></span>Выберите пигмент</p>
+  <p id="pmeta">на круге или в памятке ниже</p>
+  <p id="pnote" class="hint">Пары на пунктире — рабочие связки для гашения и получения серых.</p>
+  <p id="ppairs"></p>
+  <p id="puses"></p>
+</div>
+
+<h2>Памятка по смешиванию · городской скетчинг</h2>
+<div id="recipes"></div>
+
+<div class="gap" id="gapnote"></div>
+
+<footer id="foot"></footer>
+
+</div>
+
+<script src="data.js"></script>
+<script>
+const CX=360, CY=248, R=145;
+const COLX={right:CX+R+32, left:CX-R-32};
+
+const byName = Object.fromEntries(PIGMENTS.map(p=>[p.n,p]));
+const activeSet = new Set(ACTIVE);
+
+/* ---------- проверка данных: ловим опечатки в ACTIVE / PAIRS / RECIPES ---------- */
+(function validate(){
+  const bad=[];
+  const check=(n,where)=>{ if(!byName[n]) bad.push(`«${n}» (${where})`); };
+  ACTIVE.forEach(n=>check(n,"ACTIVE"));
+  PAIRS.forEach(([a,b])=>{check(a,"PAIRS");check(b,"PAIRS");});
+  RECIPES.forEach(g=>g.items.forEach(it=>it.mix.forEach(n=>check(n,`RECIPES · ${g.g}`))));
+  if(bad.length){
+    const w=document.getElementById("warn");
+    w.style.display="block";
+    w.innerHTML="<b>В data.js есть имена, которых нет в PIGMENTS:</b><br>"+bad.join("<br>");
+  }
+})();
+
+const pt=(a,r)=>[CX+r*Math.sin(a*Math.PI/180), CY-r*Math.cos(a*Math.PI/180)];
+const el=(t,at)=>{const e=document.createElementNS("http://www.w3.org/2000/svg",t);
+  for(const k in at)e.setAttribute(k,at[k]);return e;};
+
+/* ---------- разведение подписей по вертикали ---------- */
+function spread(list,gap,top,bot){
+  if(!list.length) return;
+  list.sort((u,v)=>u.y-v.y);
+  for(let it=0; it<80; it++){
+    let moved=false;
+    for(let k=1;k<list.length;k++){
+      const d=list[k].y-list[k-1].y;
+      if(d<gap){ const s=(gap-d)/2; list[k-1].y-=s; list[k].y+=s; moved=true; }
+    }
+    if(list[0].y<top){ const s=top-list[0].y; list.forEach(o=>o.y+=s); }
+    const last=list[list.length-1];
+    if(last.y>bot){ const s=last.y-bot; list.forEach(o=>o.y-=s); }
+    if(!moved) break;
+  }
+}
+
+/* ---------- отрисовка круга ---------- */
+const G={rings:"rings",pairs:"pairs",leaders:"leaders",dots:"dots",labels:"labels"};
+const g=Object.fromEntries(Object.entries(G).map(([k,v])=>[k,document.getElementById(v)]));
+
+let VIEW=[];       // видимые пигменты
+let selected=null;
+
+function drawWheel(names){
+  Object.values(g).forEach(n=>n.replaceChildren());
+  VIEW=names.map(n=>byName[n]).filter(Boolean);
+
+  g.rings.appendChild(el("circle",{cx:CX,cy:CY,r:R,class:"ring","stroke-width":.8}));
+  g.rings.appendChild(el("circle",{cx:CX,cy:CY,r:R*.55,class:"ring","stroke-width":.5,"stroke-dasharray":"2 4"}));
+  g.rings.appendChild(el("circle",{cx:CX,cy:CY,r:R*.30,class:"corezone","stroke-width":.8}));
+  const zl=el("text",{x:CX,y:CY+3,class:"zonelbl","text-anchor":"middle"});
+  zl.textContent="глушители"; g.rings.appendChild(zl);
+
+  // комплементарные пары — только если обе краски в этом круге
+  const vis=new Set(VIEW.map(p=>p.n));
+  PAIRS.forEach(([a,b],k)=>{
+    if(!vis.has(a)||!vis.has(b)) return;
+    const A=pt(byName[a].a,R*byName[a].c), B=pt(byName[b].a,R*byName[b].c);
+    g.pairs.appendChild(el("line",{x1:A[0],y1:A[1],x2:B[0],y2:B[1],class:"pair","data-p":k}));
+  });
+
+  // подписи: две колонки, разводим по вертикали
+  const side=p=>Math.sin(p.a*Math.PI/180)>=0?"right":"left";
+  const items=VIEW.map(p=>({p,side:side(p),y:pt(p.a,R+8)[1]}));
+  ["right","left"].forEach(s=>spread(items.filter(o=>o.side===s),14.5,18,494));
+
+  items.forEach(o=>{
+    const p=o.p, [dx,dy]=pt(p.a,R*p.c), [ex,ey]=pt(p.a,R+6);
+    const lx=COLX[o.side], anchor=o.side==="right"?"start":"end";
+    const tipx=lx+(o.side==="right"?-6:6);
+    g.leaders.appendChild(el("polyline",
+      {points:`${dx},${dy} ${ex},${ey} ${tipx},${o.y}`,class:"leader"}));
+    g.dots.appendChild(el("circle",{cx:dx,cy:dy,r:8,fill:p.hex,
+      stroke:"rgba(0,0,0,.35)","stroke-width":.8,class:"dot","data-n":p.n}));
+    const t=el("text",{x:lx,y:o.y+3.4,class:"lbl","data-n":p.n,"text-anchor":anchor});
+    t.textContent=p.n; g.labels.appendChild(t);
+  });
+
+  document.querySelectorAll(".dot,.lbl").forEach(n=>
+    n.addEventListener("click",()=>select(n.dataset.n)));
+
+  if(selected && !vis.has(selected)) clearPanel();
+  else if(selected) select(selected);
+}
+
+/* ---------- панель ---------- */
+const nameEl=document.getElementById("pname"), chip=document.getElementById("pchip"),
+      meta=document.getElementById("pmeta"), note=document.getElementById("pnote"),
+      pairsEl=document.getElementById("ppairs"), usesEl=document.getElementById("puses");
+
+function clearPanel(){
+  selected=null;
+  chip.style.background="#B9B3A5";
+  setName("Выберите пигмент");
+  meta.textContent="на круге или в памятке ниже";
+  note.className="hint";
+  note.textContent="Пары на пунктире — рабочие связки для гашения и получения серых.";
+  pairsEl.textContent=""; usesEl.textContent="";
+  document.querySelectorAll(".pair.on").forEach(l=>l.classList.remove("on"));
+  document.querySelectorAll(".lbl.on").forEach(l=>l.classList.remove("on"));
+  document.querySelectorAll(".dot").forEach(d=>d.setAttribute("stroke-width",.8));
+  document.querySelectorAll(".rec.hit").forEach(r=>r.classList.remove("hit"));
+}
+
+function setName(txt){
+  while(nameEl.childNodes.length>1) nameEl.removeChild(nameEl.lastChild);
+  nameEl.appendChild(document.createTextNode(txt));
+}
+
+function select(n){
+  const p=byName[n]; if(!p) return;
+  selected=n;
+  chip.style.background=p.hex;
+  setName(p.n);
+
+  const bits=[p.brand];
+  if(p.code) bits.push("№"+p.code);
+  bits.push(p.pig);
+  bits.push("насыщенность "+Math.round(p.c*100)+"%");
+  if(!activeSet.has(p.n)) bits.push("нет в дорожной палитре");
+  meta.textContent=bits.join(" · ");
+
+  note.className=""; note.textContent=p.note;
+
+  // комплементы + насколько пара точна
+  const mine=PAIRS.filter(([a,b])=>a===n||b===n);
+  pairsEl.innerHTML = mine.length
+    ? mine.map(([a,b,t])=>{
+        const other=byName[a===n?b:a];
+        const off=Math.abs(((other.a-p.a+180)%360+360)%360-180);
+        const q=off<=8?"точная пара":off<=20?"близкая пара":"условная пара";
+        return `<b>+ ${other.n}</b> — ${t} <span class="tag">${q}, ${Math.round(180-off)}°</span>`;
+      }).join("<br>")
+    : "<i>Комплемента в наборе нет — гасить придётся замесом.</i>";
+
+  // в каких рецептах участвует
+  const uses=[];
+  RECIPES.forEach(gr=>gr.items.forEach(it=>{ if(it.mix.includes(n)) uses.push(gr.g); }));
+  const uniq=[...new Set(uses)];
+  usesEl.textContent = uses.length
+    ? `Работает в ${uses.length} ${plural(uses.length,"замесе","замесах","замесах")} памятки: ${uniq.join(", ").toLowerCase()}.`
+    : "В памятке пока не задействован.";
+
+  document.querySelectorAll(".pair").forEach(l=>{
+    const [a,b]=PAIRS[+l.dataset.p];
+    l.classList.toggle("on",a===n||b===n);
+  });
+  document.querySelectorAll(".lbl").forEach(l=>l.classList.toggle("on",l.dataset.n===n));
+  document.querySelectorAll(".dot").forEach(d=>
+    d.setAttribute("stroke-width",d.dataset.n===n?2.4:.8));
+  document.querySelectorAll(".rec").forEach(r=>
+    r.classList.toggle("hit",(r.dataset.mix||"").split("|").includes(n)));
+}
+
+function plural(k,one,few,many){
+  const m10=k%10, m100=k%100;
+  if(m10===1&&m100!==11) return one;
+  if(m10>=2&&m10<=4&&(m100<12||m100>14)) return few;
+  return many;
+}
+
+/* ---------- памятка ---------- */
+function drawRecipes(){
+  const host=document.getElementById("recipes");
+  host.replaceChildren();
+  RECIPES.forEach(gr=>{
+    const h=document.createElement("h3"); h.textContent=gr.g; host.appendChild(h);
+    gr.items.forEach(it=>{
+      const missing=it.mix.filter(n=>!activeSet.has(n));
+      const d=document.createElement("div");
+      d.className="rec"+(missing.length?" na":"");
+      d.dataset.mix=it.mix.join("|");
+
+      const mix=document.createElement("div"); mix.className="mix";
+      it.mix.forEach((n,i)=>{
+        const p=byName[n];
+        if(i){ const s=document.createElement("span"); s.className="plus"; s.textContent="+"; mix.appendChild(s); }
+        const sw=document.createElement("span");
+        sw.className="sw"+(activeSet.has(n)?"":" gone");
+        sw.style.background=p?p.hex:"transparent";
+        sw.title=n; sw.addEventListener("click",()=>select(n));
+        mix.appendChild(sw);
+        const nm=document.createElement("span"); nm.className="mixname"; nm.textContent=n;
+        mix.appendChild(nm);
+      });
+      if(it.solo) mix.appendChild(tag("соло"));
+      if(it.wet) mix.appendChild(tag("по мокрому, не в замесе"));
+      if(it.drop) mix.appendChild(tag("каплей: "+it.drop));
+      if(missing.length) mix.appendChild(tag("нет в палитре: "+missing.join(", ")));
+      d.appendChild(mix);
+
+      const p=document.createElement("p"); p.textContent=it.t; d.appendChild(p);
+      host.appendChild(d);
+    });
+  });
+}
+function tag(txt){const s=document.createElement("span");s.className="tag";s.textContent=txt;return s;}
+
+/* ---------- «дыра» и подвал ---------- */
+function drawNotes(){
+  document.getElementById("gapnote").innerHTML =
+    "<b>Дыра в наборе — чистый яркий оранжевый.</b> Между Hansa Yellow Deep (53°) и "+
+    "Pyrrol Scarlet (113°) шестьдесят градусов, и единственное, что туда попадает — "+
+    "Burnt Sienna, а она приглушённая (57%). Черепица на закате, ржавчина, тёплые окна "+
+    "изнутри. Мешается из New Gamboge + Pyrrol Scarlet, так что покупать не обязательно, "+
+    "но знать полезно.";
+  const dup = "Pyrrol Red (119°) и Pyrrol Scarlet (113°) — дубли: шесть градусов разницы. "+
+              "В дорожную палитру берётся один.";
+  document.getElementById("foot").textContent =
+    `Всего красок в наличии: ${PIGMENTS.length} · в дорожной палитре: ${ACTIVE.length} · `+
+    `замесов в памятке: ${RECIPES.reduce((s,g)=>s+g.items.length,0)}. `+
+    `Состав правится в data.js. ${dup}`;
+}
+
+/* ---------- вкладки ---------- */
+const tabAll=document.getElementById("tab-all"), tabAct=document.getElementById("tab-act");
+tabAll.textContent=`Всё в наличии (${PIGMENTS.length})`;
+tabAct.textContent=`В палитре (${ACTIVE.length})`;
+
+function show(which){
+  const all = which==="all";
+  tabAll.classList.toggle("on",all);
+  tabAct.classList.toggle("on",!all);
+  drawWheel(all ? PIGMENTS.map(p=>p.n) : ACTIVE);
+}
+tabAll.addEventListener("click",()=>show("all"));
+tabAct.addEventListener("click",()=>show("act"));
+
+drawRecipes();
+drawNotes();
+show("all");
+</script>
+</body>
+</html>
