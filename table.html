@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Таблица красок · пигменты</title>
+<style>
+  :root{
+    --paper:#E6E3DA; --paper-deep:#D8D4C8; --ink:#2A2724;
+    --ink-soft:#6B655C; --rule:#B9B3A5;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+    line-height:1.5;padding:28px 18px 64px;
+  }
+  .wrap{max-width:1180px;margin:0 auto;}
+  header{border-bottom:1px solid var(--rule);padding-bottom:16px;margin-bottom:14px;}
+  h1{font-size:clamp(22px,5vw,32px);font-weight:600;letter-spacing:-.01em;margin:0 0 6px;}
+  .sub{font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.09em;
+       text-transform:uppercase;color:var(--ink-soft);}
+  .nav{margin:0 0 14px;font-size:14px;}
+  .nav a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--rule);}
+  .nav a:hover{border-color:var(--ink);}
+  .lead{margin:0 0 18px;font-size:14.5px;color:var(--ink-soft);max-width:64ch;}
+
+  .scroll{overflow-x:auto;border:1px solid var(--rule);background:rgba(255,255,255,.35);}
+  table{border-collapse:separate;border-spacing:0;font-size:13.5px;width:max-content;min-width:100%;}
+  th,td{padding:6px 8px;text-align:center;white-space:nowrap;}
+  thead th{
+    position:sticky;top:0;z-index:3;background:var(--paper-deep);
+    border-bottom:1px solid var(--rule);font-weight:600;
+  }
+  tbody tr:nth-child(even){background:rgba(255,255,255,.28);}
+  tbody tr:hover{background:rgba(180,170,150,.22);}
+
+  /* липкие первые столбцы */
+  .c-sw{position:sticky;left:0;z-index:2;width:34px;}
+  .c-name{position:sticky;left:34px;z-index:2;text-align:left;min-width:210px;}
+  thead .c-sw,thead .c-name{z-index:4;}
+  tbody .c-sw,tbody .c-name{background:var(--paper);}
+  tbody tr:nth-child(even) .c-sw,tbody tr:nth-child(even) .c-name{background:#DEDACE;}
+  .c-name::after,.c-sw::after{content:"";position:absolute;top:0;right:-1px;width:1px;height:100%;background:var(--rule);}
+
+  .swatch{width:22px;height:22px;border:1px solid rgba(0,0,0,.28);border-radius:3px;display:inline-block;vertical-align:middle;}
+  .nm{font-weight:600;}
+  .ru{color:var(--ink-soft);font-size:12.5px;}
+  .meta{font-family:ui-monospace,Menlo,monospace;font-size:9.5px;letter-spacing:.04em;
+        text-transform:uppercase;color:var(--ink-soft);}
+  .badge{display:inline-block;font-family:ui-monospace,Menlo,monospace;font-size:8.5px;
+    letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--rule);
+    border-radius:3px;padding:0 4px;margin-left:6px;color:var(--ink-soft);vertical-align:1px;}
+  .badge.act{border-color:#3B7A46;color:#2f6b3a;background:rgba(59,122,70,.08);}
+
+  /* заголовки пигментных столбцов */
+  th.pig{font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.02em;
+    cursor:pointer;color:#fff;min-width:40px;}
+  th.pig .fam{display:block;font-size:7.5px;opacity:.85;letter-spacing:.1em;}
+  th.pig.sel{outline:2px solid var(--ink);outline-offset:-2px;}
+  td.cell{min-width:40px;}
+  td.cell.on .dot{transform:scale(1);}
+  .dot{display:inline-block;width:13px;height:13px;border-radius:50%;
+    border:1px solid rgba(0,0,0,.25);transform:scale(0);transition:transform .12s;}
+  td.col-sel{background:rgba(160,150,130,.28)!important;}
+  .mineral{color:var(--ink-soft);font-style:italic;font-size:12px;}
+
+  footer{margin-top:24px;font-family:ui-monospace,Menlo,monospace;font-size:10.5px;
+    letter-spacing:.05em;color:var(--ink-soft);}
+  #warn{display:none;border:1px solid #A8422F;background:rgba(168,66,47,.09);
+    padding:10px 14px;margin-bottom:16px;font-size:13.5px;}
+  @media (max-width:560px){ .c-name{min-width:150px;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>Таблица красок</h1>
+  <div class="sub">Пигменты по столбцам · сортировка по цветовому кругу</div>
+</header>
+
+<p class="nav">← <a href="index.html">Цветовой круг</a></p>
+<div id="warn"></div>
+
+<p class="lead">Каждая краска — строка, каждый пигмент — столбец. Где столбец набирает несколько точек, там пигмент кочует из краски в краску: нажми на его заголовок, чтобы проследить. Порядок строк — по кругу, тёплые сверху.</p>
+
+<div class="scroll">
+  <table id="tbl"><thead></thead><tbody></tbody></table>
+</div>
+
+<footer id="foot"></footer>
+
+</div>
+
+<script src="data.js"></script>
+<script>
+const activeSet=new Set(ACTIVE);
+
+/* семейства пигментов: порядок столбцов и цвет точки */
+const FAM=[
+  ["PY","#E0B02E"],["PO","#E07B2E"],["PR","#D33B33"],["PV","#9B4AA0"],
+  ["PB","#2E5AAC"],["PG","#2E8B6B"],["PBr","#8A5A34"],["PBk","#3E3A36"],["PW","#9C968A"],
+];
+const famColor=Object.fromEntries(FAM);
+const famRank=Object.fromEntries(FAM.map(([f],i)=>[f,i]));
+const famOf=c=>{const m=c.match(/^P[A-Za-z]+(?=\d)/);return m?m[0]:"?";};
+const normCode=c=>c==="PW6:1"?"PW6":c;         // :1 — доля из таблицы, не подтип
+const codesOf=p=>(p.pig.match(/P[A-Za-z]+[\d]+(?::\d)?/g)||[]).map(normCode);
+
+/* проверка: у всех ли есть перевод */
+(function(){
+  const miss=PIGMENTS.filter(p=>!p.ru).map(p=>p.n);
+  if(miss.length){const w=document.getElementById("warn");w.style.display="block";
+    w.innerHTML="<b>Нет перевода (ru) у:</b> "+miss.join(", ");}
+})();
+
+/* набор всех кодов -> столбцы */
+const rows=[...PIGMENTS].sort((a,b)=>a.a-b.a);
+const codeSet=new Set();
+rows.forEach(p=>codesOf(p).forEach(c=>codeSet.add(c)));
+const COLS=[...codeSet].sort((x,y)=>{
+  const fx=famRank[famOf(x)]??99, fy=famRank[famOf(y)]??99;
+  if(fx!==fy) return fx-fy;
+  const nx=+((x.match(/\d+/)||[0])[0]), ny=+((y.match(/\d+/)||[0])[0]);
+  return nx-ny;
+});
+
+/* сколько раз встречается код (для заголовка) */
+const useCount={};
+rows.forEach(p=>codesOf(p).forEach(c=>useCount[c]=(useCount[c]||0)+1));
+
+/* --- шапка --- */
+const thead=document.querySelector("#tbl thead");
+const htr=document.createElement("tr");
+htr.innerHTML='<th class="c-sw"></th><th class="c-name">Цвет</th>';
+COLS.forEach(c=>{
+  const th=document.createElement("th");
+  th.className="pig"; th.dataset.code=c;
+  th.style.background=famColor[famOf(c)]||"#888";
+  th.innerHTML=`${c}<span class="fam">×${useCount[c]}</span>`;
+  th.title=`${c} — входит в ${useCount[c]} ${plural(useCount[c],"краску","краски","красок")}`;
+  th.addEventListener("click",()=>toggleCol(c));
+  htr.appendChild(th);
+});
+thead.appendChild(htr);
+
+/* --- строки --- */
+const tbody=document.querySelector("#tbl tbody");
+rows.forEach(p=>{
+  const codes=new Set(codesOf(p));
+  const tr=document.createElement("tr");
+
+  const sw=document.createElement("td"); sw.className="c-sw";
+  sw.innerHTML=`<span class="swatch" style="background:${p.hex}"></span>`;
+  tr.appendChild(sw);
+
+  const nm=document.createElement("td"); nm.className="c-name";
+  const badge=activeSet.has(p.n)?'<span class="badge act">в палитре</span>':"";
+  const mineral=codes.size===0?'<span class="mineral"> · натуральный минерал</span>':"";
+  nm.innerHTML=`<div class="nm">${p.n}${badge}</div>`
+    +`<div class="ru">${p.ru||""}${mineral}</div>`
+    +`<div class="meta">${p.brand}${p.code?" · №"+p.code:""}</div>`;
+  tr.appendChild(nm);
+
+  COLS.forEach(c=>{
+    const td=document.createElement("td");
+    td.className="cell"+(codes.has(c)?" on":""); td.dataset.code=c;
+    if(codes.has(c))
+      td.innerHTML=`<span class="dot" style="background:${famColor[famOf(c)]||'#888'}"></span>`;
+    tr.appendChild(td);
+  });
+  tbody.appendChild(tr);
+});
+
+/* подсветка столбца */
+let selCol=null;
+function toggleCol(c){
+  selCol=selCol===c?null:c;
+  document.querySelectorAll("th.pig").forEach(th=>th.classList.toggle("sel",th.dataset.code===selCol));
+  document.querySelectorAll("td.cell").forEach(td=>
+    td.classList.toggle("col-sel",selCol!==null&&td.dataset.code===selCol));
+}
+
+function plural(k,one,few,many){
+  const m10=k%10,m100=k%100;
+  if(m10===1&&m100!==11)return one;
+  if(m10>=2&&m10<=4&&(m100<12||m100>14))return few;
+  return many;
+}
+
+const shared=COLS.filter(c=>useCount[c]>1).length;
+document.getElementById("foot").textContent=
+  `Красок: ${rows.length} · уникальных пигментов: ${COLS.length} · общих (в ≥2 красках): ${shared}. `+
+  `Данные из data.js.`;
+</script>
+</body>
+</html>

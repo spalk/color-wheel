@@ -14,6 +14,7 @@ fi
 
 rsync -a --delete \
   --include='index.html' \
+  --include='table.html' \
   --include='data.js' \
   --exclude='*' \
   "$SRC"/ "$DEST"/

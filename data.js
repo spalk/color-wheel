@@ -15,87 +15,87 @@
    ------------------------------------------------------------------ */
 
 const PIGMENTS = [
-  { n:"Hansa Yellow Light", brand:"Daniel Smith", code:"041", pig:"PY3",
+  { n:"Hansa Yellow Light", ru:"Ханза жёлтая светлая", brand:"Daniel Smith", code:"041", pig:"PY3",
     hex:"#F7DE3F", a:358, c:1.00,
     note:"Единственный холодный жёлтый. С фтало даёт всю звонкую зелень, какая у тебя есть." },
 
-  { n:"Buff Titanium", brand:"Daniel Smith", code:"", pig:"PW6:1",
+  { n:"Buff Titanium", ru:"Титановый песочный", brand:"Daniel Smith", code:"", pig:"PW6:1",
     hex:"#DCCDB6", a:34, c:0.21,
     note:"Не цвет, а грунт: тёплый песочный полукроющий. Пыль, извёстка, выгоревший бетон, туман. Мутит любой замес — в этом и смысл." },
 
-  { n:"New Gamboge", brand:"Daniel Smith", code:"060", pig:"PY97 PY110",
+  { n:"New Gamboge", ru:"Новый гуммигут", brand:"Daniel Smith", code:"060", pig:"PY97 PY110",
     hex:"#F3AC2E", a:39, c:0.91,
     note:"Тёплый жёлтый, рабочая лошадь. Свет окон, закат, база для приглушённой листвы." },
 
-  { n:"Yellow Ochre", brand:"Daniel Smith", code:"", pig:"PY43",
+  { n:"Yellow Ochre", ru:"Жёлтая охра", brand:"Daniel Smith", code:"", pig:"PY43",
     hex:"#CD9A4E", a:40, c:0.66,
     note:"Приглушённый жёлтый — но менее приглушённый, чем принято думать. Штукатурка, дымка у горизонта, теплинка в любой замес." },
 
-  { n:"Hansa Yellow Deep", brand:"M. Graham", code:"", pig:"PY97",
+  { n:"Hansa Yellow Deep", ru:"Ханза жёлтая насыщенная", brand:"M. Graham", code:"", pig:"PY97",
     hex:"#F49B1E", a:53, c:0.95,
     note:"Самый тёплый жёлтый в наборе, уже почти оранжевый. Ближе всех подходит к пустому сектору оранжевого." },
 
-  { n:"Sepia", brand:"M. Graham", code:"", pig:"PBk6 PBr7",
+  { n:"Sepia", ru:"Сепия", brand:"M. Graham", code:"", pig:"PBk6 PBr7",
     hex:"#5A4536", a:70, c:0.18,
     note:"Почти нейтраль. Работает как тёмный, а не как цвет. С ультрамарином — лучший чёрный, какой можно замесить." },
 
-  { n:"Burnt Sienna", brand:"M. Graham", code:"", pig:"PBr7",
+  { n:"Burnt Sienna", ru:"Жжёная сиена", brand:"M. Graham", code:"", pig:"PBr7",
     hex:"#B05E33", a:87, c:0.57,
     note:"Главный партнёр всех синих. По замеру она краснее, чем кажется — почти напротив фтало, отсюда и качество их серых." },
 
-  { n:"Pyrrol Scarlet", brand:"Daniel Smith", code:"085", pig:"PR255",
+  { n:"Pyrrol Scarlet", ru:"Пиррольный алый", brand:"Daniel Smith", code:"085", pig:"PR255",
     hex:"#E24328", a:113, c:0.95,
     note:"Акцентный красный, точный комплемент виридиана. На обод его и надо — пара мазков на скетч." },
 
-  { n:"Pyrrol Red", brand:"M. Graham", code:"", pig:"PR254",
+  { n:"Pyrrol Red", ru:"Пиррольный красный", brand:"M. Graham", code:"", pig:"PR254",
     hex:"#D8281F", a:119, c:1.00,
     note:"Самый чистый красный в коллекции и почти дубль скарлета: холоднее его на 6°. В палитру берётся один из двух." },
 
-  { n:"Quinacridone Coral", brand:"Daniel Smith", code:"", pig:"PR209",
+  { n:"Quinacridone Coral", ru:"Хинакридоновый коралловый", brand:"Daniel Smith", code:"", pig:"PR209",
     hex:"#E2596C", a:138, c:0.81,
     note:"Ниша между скарлетом и розой. Черепица, кирпич с розовинкой, закатные стёкла." },
 
-  { n:"Quinacridone Rose", brand:"Daniel Smith", code:"092", pig:"PV19",
+  { n:"Quinacridone Rose", ru:"Хинакридоновый розовый", brand:"Daniel Smith", code:"092", pig:"PV19",
     hex:"#CC2E68", a:152, c:0.93,
     note:"Не «красный», а смесевой примар: через неё все фиолетовые, гашение зелени и тёплые серые." },
 
-  { n:"Moonglow", brand:"Daniel Smith", code:"", pig:"PR177 PB29 PG18",
+  { n:"Moonglow", ru:"Лунное сияние", brand:"Daniel Smith", code:"", pig:"PR177 PB29 PG18",
     hex:"#71607E", a:195, c:0.26,
     note:"Готовая цветная тень. В центре круга, потому что это уже почти замес — и расслаивается на бумаге на свои три пигмента." },
 
-  { n:"Sodalite Genuine", brand:"Daniel Smith", code:"", pig:"натуральный минерал",
+  { n:"Sodalite Genuine", ru:"Содалит натуральный", brand:"Daniel Smith", code:"", pig:"натуральный минерал",
     hex:"#52566B", a:229, c:0.24,
     note:"Тёмный гранулирующий сине-серый. Камень, мокрая сталь, зимнее небо — фактуру даёт сам, без твоего участия." },
 
-  { n:"French Ultramarine", brand:"Daniel Smith", code:"034", pig:"PB29",
+  { n:"French Ultramarine", ru:"Французский ультрамарин", brand:"Daniel Smith", code:"034", pig:"PB29",
     hex:"#3457AC", a:240, c:1.00,
     note:"Небо и тени, обод синей зоны. Гранулирует, слегка фиолетовит — с сиеной даёт классический серый." },
 
-  { n:"Payne's Gray", brand:"M. Graham", code:"", pig:"PB29 PBk9",
+  { n:"Payne's Gray", ru:"Серый Пейна", brand:"M. Graham", code:"", pig:"PB29 PBk9",
     hex:"#46566A", a:247, c:0.27,
     note:"Глушитель без оранжевого сдвига. Именно поэтому им гасят синие, не теряя голубизну." },
 
-  { n:"Phthalo Blue GS", brand:"Daniel Smith", code:"077", pig:"PB15:3",
+  { n:"Phthalo Blue GS", ru:"Фтало синий, зелёный оттенок", brand:"Daniel Smith", code:"077", pig:"PB15:3",
     hex:"#0F6EA6", a:255, c:0.84,
     note:"Соло невыносим, в замесах незаменим. Вся яркая зелень и почти-чёрные — через него. Каплями!" },
 
-  { n:"Cerulean Blue Chromium", brand:"Daniel Smith", code:"", pig:"PB36",
+  { n:"Cerulean Blue Chromium", ru:"Церулеум хромовый", brand:"Daniel Smith", code:"", pig:"PB36",
     hex:"#2589B4", a:262, c:0.77,
     note:"Светлая воздушная ниша: небо у горизонта, дальние планы. Кроющий и гранулирующий — не для лессировок." },
 
-  { n:"Duochrome Aquamarine", brand:"Daniel Smith", code:"", pig:"PW20 PW6",
+  { n:"Duochrome Aquamarine", ru:"Дуохромный аквамарин", brand:"Daniel Smith", code:"", pig:"PW20 PW6",
     hex:"#93C0B7", a:285, c:0.35,
     note:"Спецэффект, не цвет: интерференционный сдвиг. Блики на стекле и мокром — там, где обычная краска не сработает." },
 
-  { n:"Viridian", brand:"Daniel Smith", code:"", pig:"PG18",
+  { n:"Viridian", ru:"Виридиан", brand:"Daniel Smith", code:"", pig:"PG18",
     hex:"#2E8A72", a:291, c:0.66,
     note:"Соло нужен редко, но это точный комплемент скарлета — отсюда его тонкие хроматические серые для дальних планов." },
 
-  { n:"Undersea Green", brand:"Daniel Smith", code:"", pig:"PB29 PY150 PO48",
+  { n:"Undersea Green", ru:"Подводная зелень", brand:"Daniel Smith", code:"", pig:"PB29 PY150 PO48",
     hex:"#52704A", a:314, c:0.40,
     note:"Готовая приглушённая листва. Оживляется гамбожем, гасится розой. Расслаивается — крона получается сама." },
 
-  { n:"Green Apatite Genuine", brand:"Daniel Smith", code:"", pig:"натуральный минерал",
+  { n:"Green Apatite Genuine", ru:"Зелёный апатит натуральный", brand:"Daniel Smith", code:"", pig:"натуральный минерал",
     hex:"#74804A", a:335, c:0.46,
     note:"Оливковый с сильной гранулацией. Один мазок = готовая фактурная крона. Точный комплемент розы." },
 ];
