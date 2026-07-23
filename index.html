@@ -385,9 +385,10 @@ function select(n){
   pairsEl.innerHTML = mine.length
     ? mine.map(([a,b,t])=>{
         const other=byName[a===n?b:a];
-        const off=Math.abs(((other.a-p.a+180)%360+360)%360-180);
-        const q=off<=8?"точная пара":off<=20?"близкая пара":"условная пара";
-        return `<b>+ ${other.n}</b> — ${t} <span class="tag">${q}, ${Math.round(180-off)}°</span>`;
+        const sep=Math.abs(((other.a-p.a+180)%360+360)%360-180); // угол между красками
+        const dev=180-sep;                                        // недобор до идеальных 180°
+        const q=dev<=8?"точная пара":dev<=20?"близкая пара":"условная пара";
+        return `<b>+ ${other.n}</b> — ${t} <span class="tag">${q}, ${Math.round(dev)}°</span>`;
       }).join("<br>")
     : "<i>Комплемента в наборе нет — гасить придётся замесом.</i>";
 
