@@ -1,6 +1,6 @@
 /* СГЕНЕРИРОВАНО scripts/build_catalog.py — руками не править.
    Источники: карта CIELab danielsmith.com/color-map, справочник пигментов DS,
-   дот-карты художников из authors/*/palette.json.
+   дот-карты художников из authors/<автор>/palette.json.
    Геометрия (a, c) и hex посчитаны из измеренного Lab: см. scripts/ds_build.py.
    Красок: 74   ·   наборов художников: 5 */
 
