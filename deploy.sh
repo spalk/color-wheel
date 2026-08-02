@@ -12,10 +12,16 @@ if [ ! -d "$DEST" ]; then
   exit 1
 fi
 
+# Из authors/ на сайт нужны только работы: дот-карты — исходники,
+# их содержимое уже разобрано в palette.json и оттуда в catalog.js.
 rsync -a --delete \
   --include='index.html' \
   --include='table.html' \
   --include='data.js' \
+  --include='catalog.js' \
+  --include='authors/' \
+  --include='authors/*/' \
+  --include='authors/*/example.jpg' \
   --exclude='*' \
   "$SRC"/ "$DEST"/
 
