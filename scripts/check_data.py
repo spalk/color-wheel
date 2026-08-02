@@ -18,8 +18,58 @@ def read(p):
     return open(os.path.join(ROOT, p), encoding="utf-8").read()
 
 
+def cyrillic_in_code(code, label):
+    """Кириллица вне строк и комментариев = скрипт разбирается не так, как задумано.
+
+    Ровно так проявляется «*/» посреди блочного комментария: он закрывается
+    досрочно, и русский текст уезжает в код. Браузер падает с SyntaxError,
+    а проверка скобок этого не видит — там всё сходится.
+    """
+    i, line, out = 0, 1, []
+    n = len(code)
+    while i < n:
+        ch = code[i]
+        if ch == "\n":
+            line += 1; i += 1; continue
+        if code.startswith("//", i):
+            j = code.find("\n", i); i = n if j < 0 else j; continue
+        if code.startswith("/*", i):
+            j = code.find("*/", i + 2)
+            if j < 0:
+                out.append((line, "незакрытый /*")); break
+            line += code[i:j].count("\n"); i = j + 2; continue
+        if ch in "\"'`":
+            q, j = ch, i + 1
+            while j < n:
+                if code[j] == "\\":
+                    j += 2; continue
+                if code[j] == q or (code[j] == "\n" and q != "`"):
+                    break
+                j += 1
+            line += code[i:j].count("\n"); i = j + 1; continue
+        if "Ѐ" <= ch <= "ӿ":
+            frag = code[max(0, i - 30):i + 30].replace("\n", " ")
+            out.append((line, f"кириллица вне строк: …{frag}…"))
+            while i < n and code[i] != "\n":
+                i += 1
+            continue
+        i += 1
+    return [(label, l, m) for l, m in out]
+
+
 def main():
     cat, data = read("catalog.js"), read("data.js")
+
+    syntax = (cyrillic_in_code(cat, "catalog.js")
+              + cyrillic_in_code(data, "data.js")
+              + cyrillic_in_code(
+                  re.search(r"<script>\n(.*?)\n</script>", read("index.html"), re.S).group(1),
+                  "index.html"))
+    if syntax:
+        print("СКРИПТ НЕ РАЗБЕРЁТСЯ:")
+        for f, l, m in syntax[:5]:
+            print(f"  {f}:{l} — {m}")
+        return 1
 
     ds = set(re.findall(r'^\s*"(\d{9})":', cat, re.M))
     authors = [(m.group(1), re.findall(r'"(\d{9})"', m.group(2)))

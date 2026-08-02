@@ -97,15 +97,22 @@ def main():
             e["alias"] = a["alias"]
         au.append("  " + js(e) + ",")
 
+    # ВНИМАНИЕ: внутри блочного комментария не должно быть последовательности
+    # "*/" — она закроет его досрочно, и остаток текста уедет в код.
+    # Поэтому пути пишем как authors/<автор>/palette.json, а не через звёздочку.
     out = ["/* СГЕНЕРИРОВАНО scripts/build_catalog.py — руками не править.",
            "   Источники: карта CIELab danielsmith.com/color-map, справочник пигментов DS,",
-           "   дот-карты художников из authors/*/palette.json.",
+           "   дот-карты художников из authors/<автор>/palette.json.",
            "   Геометрия (a, c) и hex посчитаны из измеренного Lab: см. scripts/ds_build.py.",
            f"   Красок: {len(need)}   ·   наборов художников: {len(authors)} */",
            "", "const DS = {", *lines, "};", "",
            "/* Наборы художников. Источник — дот-карты Daniel Smith:",
            "   https://danielsmith.com/brand-ambassadors/ */",
            "const AUTHORS = [", *au, "];", ""]
+
+    for k, ln in enumerate(out):
+        if ln.count("*/") and not ln.rstrip().endswith("*/"):
+            sys.exit(f"строка {k+1}: «*/» посреди комментария закроет его досрочно")
     path = os.path.join(ROOT, "catalog.js")
     open(path, "w").write("\n".join(out))
     print(f"{path}: {len(need)} красок, {len(authors)} авторов, "
