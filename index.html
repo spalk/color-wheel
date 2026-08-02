@@ -37,8 +37,9 @@
   .nav a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--rule);}
   .nav a:hover{border-color:var(--ink);}
 
-  /* ---- переключатель кругов ---- */
-  .tabs{display:flex;gap:0;margin:0 0 14px;border:1px solid var(--rule);width:fit-content;}
+  /* ---- переключатели кругов ---- */
+  .tabsrow{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin:0 0 10px;}
+  .tabs{display:flex;gap:0;margin:0;border:1px solid var(--rule);width:fit-content;}
   .tabs button{
     font:inherit;font-size:13px;background:none;border:none;cursor:pointer;
     padding:8px 16px;color:var(--ink-soft);
@@ -48,9 +49,34 @@
   .tabs button.on{background:rgba(255,255,255,.62);color:var(--ink);font-weight:600;}
   .tabs button:hover:not(.on){background:rgba(255,255,255,.32);}
 
+  /* второй ряд: художники. Список тянет и тридцать имён, стрелки — чтобы щёлкать подряд */
+  .arow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 14px;}
+  .astep{
+    font:inherit;font-size:15px;line-height:1;background:none;cursor:pointer;
+    border:1px solid var(--rule);color:var(--ink-soft);padding:7px 11px;
+  }
+  .astep:hover{background:rgba(255,255,255,.42);color:var(--ink);}
+  .astep:disabled{opacity:.35;cursor:default;background:none;}
+  #asel{
+    font:inherit;font-size:13px;padding:7px 10px;color:var(--ink);
+    background:rgba(255,255,255,.42);border:1px solid var(--rule);cursor:pointer;
+    max-width:min(58vw,280px);
+  }
+  #asel.on{background:rgba(255,255,255,.72);font-weight:600;}
+
+  .candtog{
+    font-family:ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:.07em;
+    text-transform:uppercase;color:var(--ink-soft);cursor:pointer;
+    display:flex;align-items:center;gap:6px;-webkit-user-select:none;user-select:none;
+  }
+  .candtog input{accent-color:var(--ink);cursor:pointer;}
+
   svg{display:block;width:100%;height:auto;}
   .dot{cursor:pointer;transition:r .15s ease;}
   .dot:hover{r:11;}
+  .dot.cand{stroke-dasharray:2.5 2.5;}
+  .dot.mineghost{pointer-events:none;}
+  .lbl.cand{font-style:italic;opacity:.72;}
   .lbl{
     font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
     font-size:9.5px;fill:var(--ink-soft);letter-spacing:.02em;cursor:pointer;
@@ -92,14 +118,49 @@
   #puses{margin:8px 0 0;font-size:13.5px;color:var(--ink-soft);}
   .hint{font-style:italic;color:var(--ink-soft);}
 
+  /* ---- панель художника ---- */
+  #authorbox{margin-top:20px;border-top:1px solid var(--rule);padding-top:18px;}
+  #authorbox[hidden]{display:none;}
+  .ahead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px;}
+  .ahead h3{margin:0;font-size:20px;font-weight:600;}
+  #ameta{
+    font-family:ui-monospace,Menlo,monospace;font-size:10.5px;letter-spacing:.06em;
+    text-transform:uppercase;color:var(--ink-soft);
+  }
+  #afig{margin:14px 0 0;}
+  #afig img{
+    display:block;width:100%;height:auto;border:1px solid var(--rule);
+    background:rgba(255,255,255,.4);
+  }
+  #afig figcaption{
+    font-family:ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:.05em;
+    color:var(--ink-soft);margin-top:6px;
+  }
+  #aquote{
+    margin:16px 0 0;padding-left:14px;border-left:2px solid var(--rule);
+    font-size:14.5px;font-style:italic;color:var(--ink-soft);
+  }
+  #abio{margin:12px 0 0;font-size:14.5px;}
+  #alinks{margin:10px 0 0;font-size:13.5px;}
+  #alinks a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--rule);}
+  #alinks a:hover{border-color:var(--ink);}
+  .diff{display:flex;gap:26px;flex-wrap:wrap;margin:16px 0 0;}
+  .diff > div{flex:1 1 240px;min-width:0;}
+  .diffh{
+    font-family:ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px;
+  }
+  .diff ul{margin:0;padding:0;list-style:none;font-size:13.5px;}
+  .diff li{display:flex;align-items:center;gap:7px;padding:1.5px 0;cursor:pointer;}
+  .diff li:hover{color:var(--ink);}
+  .diff .sw{width:11px;height:11px;}
+
   h2{
     font-size:12px;font-family:ui-monospace,Menlo,monospace;
     letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);
     font-weight:400;margin:34px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--rule);
   }
-  h3{
-    font-size:15.5px;font-weight:600;margin:22px 0 8px;
-  }
+  h3{font-size:15.5px;font-weight:600;margin:22px 0 8px;}
   h3:first-of-type{margin-top:0;}
 
   /* ---- рецепты ---- */
@@ -124,6 +185,20 @@
     padding:1px 5px;margin-left:4px;white-space:nowrap;
   }
   .gap{margin-top:16px;border-left:2px solid var(--ink);padding:2px 0 2px 14px;font-size:14.5px;}
+
+  /* ---- кандидаты ---- */
+  .cand{
+    margin:0 0 15px;padding-left:14px;border-left:2px solid transparent;
+    transition:border-color .2s,background .2s;
+  }
+  .cand.hit{border-left-color:var(--ink);background:rgba(255,255,255,.4);}
+  .candhead{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-bottom:3px;}
+  .candname{font-size:15px;font-weight:600;cursor:pointer;}
+  .candru{font-size:13px;color:var(--ink-soft);}
+  .cand p{margin:0 0 5px;font-size:14px;color:var(--ink-soft);}
+  .candsub{font-size:13.5px;color:var(--ink-soft);}
+  .candsub b{color:var(--ink);font-weight:600;}
+  .candsub .nm{color:var(--ink);cursor:pointer;border-bottom:1px dotted var(--rule);}
   #warn{
     display:none;border:1px solid #A8422F;background:rgba(168,66,47,.09);
     padding:10px 14px;margin-bottom:16px;font-size:13.5px;
@@ -133,8 +208,11 @@
     font-family:ui-monospace,Menlo,monospace;font-size:10.5px;
     letter-spacing:.05em;color:var(--ink-soft);
   }
+  footer p{margin:0 0 7px;}
+  footer a{color:var(--ink-soft);}
   @media (max-width:560px){
     .lbl{font-size:11px;}
+    .diff{gap:16px;}
   }
   @media (prefers-reduced-motion:reduce){*{transition:none!important;}}
 </style>
@@ -151,16 +229,27 @@
 
 <div id="warn"></div>
 
-<p class="lead">Чем ближе пигмент к центру, тем он глуше: в середине живут не цвета, а глушители. Пунктир соединяет комплементарные пары — те, что гасят друг друга в серое. Нажмите на точку.</p>
+<p class="lead"></p>
 
-<div class="tabs">
-  <button id="tab-all" class="on"></button>
-  <button id="tab-act"></button>
-  <button id="tab-theory"></button>
+<div class="tabsrow">
+  <div class="tabs">
+    <button id="tab-all" class="on"></button>
+    <button id="tab-act"></button>
+    <button id="tab-theory"></button>
+  </div>
+  <label class="candtog"><input type="checkbox" id="showcand"><span id="candtogtxt"></span></label>
+</div>
+
+<div class="arow">
+  <button class="astep" id="aprev" title="предыдущий художник">‹</button>
+  <select id="asel"></select>
+  <button class="astep" id="anext" title="следующий художник">›</button>
+  <label class="candtog"><input type="checkbox" id="ghostbox"><span>моя палитра фоном</span></label>
 </div>
 
 <svg id="wheel" viewBox="0 0 720 510" role="img" aria-label="Цветовой круг палитры">
   <g id="rings"></g>
+  <g id="ghosts"></g>
   <g id="pairs"></g>
   <g id="leaders"></g>
   <g id="dots"></g>
@@ -175,34 +264,93 @@
   <p id="puses"></p>
 </div>
 
+<div id="authorbox" hidden>
+  <div class="ahead"><h3 id="aname"></h3><div id="ameta"></div></div>
+  <blockquote id="aquote"></blockquote>
+  <p id="abio"></p>
+  <p id="alinks"></p>
+  <div class="diff">
+    <div><div class="diffh" id="dh1"></div><ul id="donly"></ul></div>
+    <div><div class="diffh" id="dh2"></div><ul id="dmine"></ul></div>
+  </div>
+  <figure id="afig"><img id="aexample" alt="" loading="lazy"><figcaption id="acredit"></figcaption></figure>
+</div>
+
 <h2>Памятка по смешиванию · городской скетчинг</h2>
 <div id="recipes"></div>
 
 <div class="gap" id="gapnote"></div>
 
+<h2>Кандидаты · чего в наборе нет</h2>
+<p class="lead">Пустые кружки пунктиром на круге — включаются галочкой у вкладок. Каждый берётся не за красоту, а за то, что закрывает дыру или делает то, что замесом не собрать: грануляцию, кроющесть, прозрачность. Под каждым — эквивалентная замена из того, что уже есть.</p>
+<div id="cands"></div>
+
+<div class="gap" id="rejnote"></div>
+
 <footer id="foot"></footer>
 
 </div>
 
+<script src="catalog.js"></script>
 <script src="data.js"></script>
 <script>
 const CX=360, CY=248, R=145;
 const COLX={right:CX+R+32, left:CX-R-32};
 
-const byName = Object.fromEntries(PIGMENTS.map(p=>[p.n,p]));
-const activeSet = new Set(ACTIVE);
+/* ---------- реестр красок ----------
+   Геометрия и свойства приходят из DS (catalog.js), а короткое имя,
+   русское название и заметка — из MY/CANDIDATES (data.js). Если в
+   рукописной части заданы a/c/hex, они перебивают каталог: так живут
+   краски без измерений, вроде дуохрома. */
+const OVR = {};
+MY.forEach(p => OVR[p.sku] = p);
+CANDIDATES.forEach(p => OVR[p.sku] = p);
+const MINE = new Set(MY.map(p => p.sku));
+const CANDSKU = new Set(CANDIDATES.map(p => p.sku));
 
-/* ---------- проверка данных: ловим опечатки в ACTIVE / PAIRS / RECIPES ---------- */
+function paint(sku){
+  const d = DS[sku] || {}, m = OVR[sku] || {};
+  const a = m.a !== undefined ? m.a : d.a;
+  return {
+    sku,
+    n: m.n || d.n || sku,          // подпись на круге
+    full: d.n || m.n || sku,       // официальное имя DS
+    ru: m.ru || "", brand: m.brand || "Daniel Smith",
+    note: m.note || "", pig: d.pig || m.pig || "",
+    ser: d.ser, gran: d.gran, tr: d.tr,
+    a, c: m.c !== undefined ? m.c : d.c,
+    hex: m.hex || d.hex || "#B9B3A5",
+    placed: a !== undefined,       // есть ли чем поставить на круг
+    mine: MINE.has(sku), cand: CANDSKU.has(sku),
+  };
+}
+
+// короткое имя -> артикул: так пишутся ACTIVE, PAIRS и RECIPES
+const skuOf = {};
+MY.forEach(p => skuOf[p.n] = p.sku);
+CANDIDATES.forEach(p => skuOf[p.n] = p.sku);
+const activeSet = new Set(ACTIVE.map(n => skuOf[n]).filter(Boolean));
+
+/* ---------- проверка данных: ловим опечатки ---------- */
 (function validate(){
   const bad=[];
-  const check=(n,where)=>{ if(!byName[n]) bad.push(`«${n}» (${where})`); };
+  const check=(n,where)=>{ if(!skuOf[n] || !MINE.has(skuOf[n])) bad.push(`«${n}» (${where})`); };
   ACTIVE.forEach(n=>check(n,"ACTIVE"));
   PAIRS.forEach(([a,b])=>{check(a,"PAIRS");check(b,"PAIRS");});
   RECIPES.forEach(g=>g.items.forEach(it=>it.mix.forEach(n=>check(n,`RECIPES · ${g.g}`))));
+  CANDIDATES.forEach(c=>{
+    c.sub.forEach(n=>check(n,`CANDIDATES · замена ${c.n}`));
+    if(MINE.has(c.sku)) bad.push(`«${c.n}» числится и в MY, и в CANDIDATES`);
+    if(!DS[c.sku]) bad.push(`«${c.n}»: артикула ${c.sku} нет в каталоге`);
+  });
+  MY.forEach(p=>{ if(!DS[p.sku]) bad.push(`«${p.n}»: артикула ${p.sku} нет в каталоге`); });
+  AUTHORS.forEach(a=>a.colors.forEach(s=>{
+    if(!DS[s]) bad.push(`${a.name}: артикула ${s} нет в каталоге`);
+  }));
   if(bad.length){
     const w=document.getElementById("warn");
     w.style.display="block";
-    w.innerHTML="<b>В data.js есть имена, которых нет в PIGMENTS:</b><br>"+bad.join("<br>");
+    w.innerHTML="<b>Данные не сходятся:</b><br>"+bad.join("<br>");
   }
 })();
 
@@ -210,7 +358,6 @@ const pt=(a,r)=>[CX+r*Math.sin(a*Math.PI/180), CY-r*Math.cos(a*Math.PI/180)];
 const el=(t,at)=>{const e=document.createElementNS("http://www.w3.org/2000/svg",t);
   for(const k in at)e.setAttribute(k,at[k]);return e;};
 
-// кольцевой сектор от угла a0 до a1 (по часовой), радиусы ri..ro
 function wedgePath(a0,a1,ri,ro){
   const [ox0,oy0]=pt(a0,ro),[ox1,oy1]=pt(a1,ro);
   const [ix1,iy1]=pt(a1,ri),[ix0,iy0]=pt(a0,ri);
@@ -218,6 +365,7 @@ function wedgePath(a0,a1,ri,ro){
        + `L${ix1} ${iy1} A${ri} ${ri} 0 0 0 ${ix0} ${iy0} Z`;
 }
 const nearestSector=a=>Math.round(((a%360)+360)%360/30)%12*30;
+const sep=(x,y)=>Math.abs(((y-x+180)%360+360)%360-180);   // угол между тонами
 
 /* ---------- разведение подписей по вертикали ---------- */
 function spread(list,gap,top,bot){
@@ -236,35 +384,63 @@ function spread(list,gap,top,bot){
   }
 }
 
-/* ---------- отрисовка круга ---------- */
-const G={rings:"rings",pairs:"pairs",leaders:"leaders",dots:"dots",labels:"labels"};
+/* ---------- состояние ---------- */
+const G={rings:"rings",ghosts:"ghosts",pairs:"pairs",leaders:"leaders",dots:"dots",labels:"labels"};
 const g=Object.fromEntries(Object.entries(G).map(([k,v])=>[k,document.getElementById(v)]));
 
-let VIEW=[];       // видимые пигменты
-let selected=null;
-let MODE="all";    // all | act | theory
+let VIEW=[];        // краски на круге
+let selected=null;  // артикул
+let MODE="all";     // all | act | theory | author
+let AUTHOR=null;    // текущий художник
+let SHOWCAND=false;
+let GHOST=false;
 
-function drawWheel(names){
-  Object.values(g).forEach(n=>n.replaceChildren());
-  VIEW=names.map(n=>byName[n]).filter(Boolean);
+const authorById=Object.fromEntries(AUTHORS.map(a=>[a.id,a]));
 
+/* ---------- отрисовка круга ---------- */
+function coreRings(){
   g.rings.appendChild(el("circle",{cx:CX,cy:CY,r:R,class:"ring","stroke-width":.8}));
   g.rings.appendChild(el("circle",{cx:CX,cy:CY,r:R*.55,class:"ring","stroke-width":.5,"stroke-dasharray":"2 4"}));
   g.rings.appendChild(el("circle",{cx:CX,cy:CY,r:R*.30,class:"corezone","stroke-width":.8}));
   const zl=el("text",{x:CX,y:CY+3,class:"zonelbl","text-anchor":"middle"});
   zl.textContent="глушители"; g.rings.appendChild(zl);
+}
 
-  // комплементарные пары — только если обе краски в этом круге
-  const vis=new Set(VIEW.map(p=>p.n));
-  PAIRS.forEach(([a,b],k)=>{
-    if(!vis.has(a)||!vis.has(b)) return;
-    const A=pt(byName[a].a,R*byName[a].c), B=pt(byName[b].a,R*byName[b].c);
-    g.pairs.appendChild(el("line",{x1:A[0],y1:A[1],x2:B[0],y2:B[1],class:"pair","data-p":k}));
+// бледные точки моей палитры под чужим набором — для сравнения на одном круге
+function drawGhosts(skus){
+  const on=new Set(skus);
+  MY.map(p=>paint(p.sku)).filter(p=>p.placed).forEach(p=>{
+    const [x,y]=pt(p.a,R*p.c);
+    g.ghosts.appendChild(el("circle",{cx:x,cy:y,r:on.has(p.sku)?9.5:6,fill:p.hex,
+      "fill-opacity":on.has(p.sku)?.22:.30,
+      stroke:on.has(p.sku)?"#6B655C":"rgba(107,101,92,.45)",
+      "stroke-width":on.has(p.sku)?1.2:.7,
+      "stroke-dasharray":on.has(p.sku)?"3 3":"none",
+      class:"dot mineghost"}));
   });
+}
 
-  // подписи: две колонки, разводим по вертикали
+function drawWheel(skus,{pairs=false,cands=false}={}){
+  Object.values(g).forEach(n=>n.replaceChildren());
+  VIEW=skus.map(paint).filter(p=>p.placed);
+  coreRings();
+  if(GHOST && MODE==="author") drawGhosts(skus);
+
+  if(pairs){
+    const vis=new Set(VIEW.map(p=>p.sku));
+    PAIRS.forEach(([a,b],k)=>{
+      const sa=skuOf[a], sb=skuOf[b];
+      if(!vis.has(sa)||!vis.has(sb)) return;
+      const A=paint(sa), B=paint(sb);
+      const [x1,y1]=pt(A.a,R*A.c), [x2,y2]=pt(B.a,R*B.c);
+      g.pairs.appendChild(el("line",{x1,y1,x2,y2,class:"pair","data-p":k}));
+    });
+  }
+
   const side=p=>Math.sin(p.a*Math.PI/180)>=0?"right":"left";
-  const items=VIEW.map(p=>({p,side:side(p),y:pt(p.a,R+8)[1]}));
+  const shown=VIEW.map(p=>({p,c:false}))
+    .concat(cands?CANDIDATES.map(c=>paint(c.sku)).filter(p=>p.placed).map(p=>({p,c:true})):[]);
+  const items=shown.map(o=>({...o,side:side(o.p),y:pt(o.p.a,R+8)[1]}));
   ["right","left"].forEach(s=>spread(items.filter(o=>o.side===s),14.5,18,494));
 
   items.forEach(o=>{
@@ -273,25 +449,26 @@ function drawWheel(names){
     const tipx=lx+(o.side==="right"?-6:6);
     g.leaders.appendChild(el("polyline",
       {points:`${dx},${dy} ${ex},${ey} ${tipx},${o.y}`,class:"leader"}));
-    g.dots.appendChild(el("circle",{cx:dx,cy:dy,r:8,fill:p.hex,
-      stroke:"rgba(0,0,0,.35)","stroke-width":.8,class:"dot","data-n":p.n}));
-    const t=el("text",{x:lx,y:o.y+3.4,class:"lbl","data-n":p.n,"text-anchor":anchor});
+    g.dots.appendChild(el("circle",{cx:dx,cy:dy,r:o.c?7:8,fill:p.hex,
+      "fill-opacity":o.c?.42:1,
+      stroke:o.c?"#6B655C":"rgba(0,0,0,.35)","stroke-width":o.c?1.4:.8,
+      class:"dot"+(o.c?" cand":""),"data-n":p.sku}));
+    const t=el("text",{x:lx,y:o.y+3.4,class:"lbl"+(o.c?" cand":""),
+      "data-n":p.sku,"text-anchor":anchor});
     t.textContent=p.n; g.labels.appendChild(t);
   });
 
-  document.querySelectorAll(".dot,.lbl").forEach(n=>
-    n.addEventListener("click",()=>select(n.dataset.n)));
-
-  if(selected && !vis.has(selected)) clearPanel();
+  bindDots();
+  const known=new Set(shown.map(o=>o.p.sku));
+  if(selected && !known.has(selected)) clearPanel();
   else if(selected) select(selected);
 }
 
 /* ---------- теоретический круг ---------- */
 function drawTheory(){
   Object.values(g).forEach(n=>n.replaceChildren());
-  VIEW=PIGMENTS.slice();
+  VIEW=MY.map(p=>paint(p.sku)).filter(p=>p.placed);
 
-  // 12 секторов × кольца по насыщенности: обод сочный, внутрь глушится к бумаге
   const CORE=R*.30;
   THEORY_RINGS.forEach((ring,idx)=>{
     const rOut=R*ring.rf;
@@ -302,36 +479,41 @@ function drawTheory(){
         fill:hx,class:"wedge","data-a":a}));
     });
   });
-  // сердцевина — глушители
   g.rings.appendChild(el("circle",{cx:CX,cy:CY,r:CORE,class:"corezone","stroke-width":.8}));
   const zl=el("text",{x:CX,y:CY+3,class:"zonelbl","text-anchor":"middle"});
   zl.textContent="глушители"; g.rings.appendChild(zl);
 
-  // подписи 6 главных тонов снаружи
   THEORY_LABELS.forEach(l=>{
     const [lx,ly]=pt(l.a,R+22);
     const t=el("text",{x:lx,y:ly+3.4,class:"thlbl","text-anchor":"middle"});
     t.textContent=l.t; g.labels.appendChild(t);
   });
 
-  // все пигменты поверх — маленькими точками, видно охват и дыры
-  PIGMENTS.forEach(p=>{
+  VIEW.forEach(p=>{
     const [dx,dy]=pt(p.a,R*p.c);
     g.dots.appendChild(el("circle",{cx:dx,cy:dy,r:5.5,fill:p.hex,
-      stroke:"rgba(0,0,0,.4)","stroke-width":.8,class:"dot ghost","data-n":p.n}));
+      stroke:"rgba(0,0,0,.4)","stroke-width":.8,class:"dot ghost","data-n":p.sku}));
+  });
+  if(SHOWCAND) CANDIDATES.map(c=>paint(c.sku)).filter(p=>p.placed).forEach(p=>{
+    const [dx,dy]=pt(p.a,R*p.c);
+    g.dots.appendChild(el("circle",{cx:dx,cy:dy,r:6,fill:p.hex,"fill-opacity":.42,
+      stroke:"#2A2724","stroke-width":1.4,class:"dot cand","data-n":p.sku}));
   });
 
-  document.querySelectorAll(".dot").forEach(n=>
-    n.addEventListener("click",()=>select(n.dataset.n)));
-
+  bindDots();
   if(selected) select(selected); else clearPanel();
+}
+
+function bindDots(){
+  document.querySelectorAll(".dot:not(.mineghost),.lbl").forEach(n=>
+    n.addEventListener("click",()=>select(n.dataset.n)));
 }
 
 // подсветить сектор-комплемент и провести линию через центр
 function markComplement(p){
   document.querySelectorAll(".wedge").forEach(w=>w.classList.remove("dim","comp"));
   document.querySelectorAll(".pair").forEach(l=>{
-    if(l.dataset.p===undefined) l.remove();      // только временную линию комплемента
+    if(l.dataset.p===undefined) l.remove();
   });
   if(!p) return;
   const opp=nearestSector(p.a+180);
@@ -344,7 +526,7 @@ function markComplement(p){
   g.pairs.appendChild(el("line",{x1:dx,y1:dy,x2:ex,y2:ey,class:"pair on"}));
 }
 
-/* ---------- панель ---------- */
+/* ---------- панель краски ---------- */
 const nameEl=document.getElementById("pname"), chip=document.getElementById("pchip"),
       meta=document.getElementById("pmeta"), note=document.getElementById("pnote"),
       pairsEl=document.getElementById("ppairs"), usesEl=document.getElementById("puses");
@@ -359,8 +541,10 @@ function clearPanel(){
   pairsEl.textContent=""; usesEl.textContent="";
   document.querySelectorAll(".pair.on").forEach(l=>l.classList.remove("on"));
   document.querySelectorAll(".lbl.on").forEach(l=>l.classList.remove("on"));
-  document.querySelectorAll(".dot").forEach(d=>d.setAttribute("stroke-width",.8));
+  document.querySelectorAll(".dot:not(.mineghost)").forEach(d=>
+    d.setAttribute("stroke-width",d.classList.contains("cand")?1.4:.8));
   document.querySelectorAll(".rec.hit").forEach(r=>r.classList.remove("hit"));
+  document.querySelectorAll("#cands .cand.hit").forEach(c=>c.classList.remove("hit"));
   markComplement(null);
 }
 
@@ -369,53 +553,83 @@ function setName(txt){
   nameEl.appendChild(document.createTextNode(txt));
 }
 
-function select(n){
-  const p=byName[n]; if(!p) return;
-  selected=n;
+function select(sku){
+  const p=paint(sku); if(!DS[sku] && !OVR[sku]) return;
+  const cd=CANDIDATES.find(c=>c.sku===sku);
+  selected=sku;
   chip.style.background=p.hex;
   setName(p.n);
 
-  const bits=[p.brand];
-  if(p.code) bits.push("№"+p.code);
-  bits.push(p.pig);
-  bits.push("насыщенность "+Math.round(p.c*100)+"%");
-  if(!activeSet.has(p.n)) bits.push("нет в дорожной палитре");
+  const bits=[];
+  if(p.full!==p.n) bits.push(p.full);
+  bits.push(p.brand);
+  bits.push("№"+sku.slice(-3));
+  if(p.pig) bits.push(p.pig);
+  if(p.placed) bits.push("насыщенность "+Math.round(p.c*100)+"%");
+  else bits.push("нет измерений");
+  if(p.gran===1) bits.push("гранулирует");
+  if(cd) bits.push("кандидат — нет в наличии");
+  else if(!p.mine) bits.push("не в твоём наборе");
+  else if(!activeSet.has(sku)) bits.push("нет в дорожной палитре");
   meta.textContent=bits.join(" · ");
 
-  note.className=""; note.textContent=p.note;
+  note.className=""; note.textContent=cd?cd.why:(p.note||"Краска из набора художника. Личной заметки по ней нет.");
 
-  // комплементы + насколько пара точна
-  const mine=PAIRS.filter(([a,b])=>a===n||b===n);
-  pairsEl.innerHTML = mine.length
-    ? mine.map(([a,b,t])=>{
-        const other=byName[a===n?b:a];
-        const sep=Math.abs(((other.a-p.a+180)%360+360)%360-180); // угол между красками
-        const dev=180-sep;                                        // недобор до идеальных 180°
-        const q=dev<=8?"точная пара":dev<=20?"близкая пара":"условная пара";
-        return `<b>+ ${other.n}</b> — ${t} <span class="tag">${q}, ${Math.round(dev)}°</span>`;
-      }).join("<br>")
-    : "<i>Комплемента в наборе нет — гасить придётся замесом.</i>";
-
-  // в каких рецептах участвует
-  const uses=[];
-  RECIPES.forEach(gr=>gr.items.forEach(it=>{ if(it.mix.includes(n)) uses.push(gr.g); }));
-  const uniq=[...new Set(uses)];
-  usesEl.textContent = uses.length
-    ? `Работает в ${uses.length} ${plural(uses.length,"замесе","замесах","замесах")} памятки: ${uniq.join(", ").toLowerCase()}.`
-    : "В памятке пока не задействован.";
+  if(cd){
+    pairsEl.innerHTML = cd.sub.length
+      ? `<b>Замена замесом: ${cd.sub.join(" + ")}</b> — ${cd.subt}`
+      : `<b>Замесом не воспроизводится.</b> ${cd.subt}`;
+    usesEl.textContent=nearestText(p);
+  } else if(p.mine){
+    const mine=PAIRS.filter(([a,b])=>skuOf[a]===sku||skuOf[b]===sku);
+    pairsEl.innerHTML = mine.length
+      ? mine.map(([a,b,t])=>{
+          const other=paint(skuOf[a]===sku?skuOf[b]:skuOf[a]);
+          const dev=180-sep(p.a,other.a);
+          const q=dev<=8?"точная пара":dev<=20?"близкая пара":"условная пара";
+          return `<b>+ ${other.n}</b> — ${t} <span class="tag">${q}, ${Math.round(dev)}°</span>`;
+        }).join("<br>")
+      : "<i>Комплемента в наборе нет — гасить придётся замесом.</i>";
+    const uses=[];
+    RECIPES.forEach(gr=>gr.items.forEach(it=>{ if(it.mix.some(n=>skuOf[n]===sku)) uses.push(gr.g); }));
+    const uniq=[...new Set(uses)];
+    usesEl.textContent = uses.length
+      ? `Работает в ${uses.length} ${plural(uses.length,"замесе","замесах","замесах")} памятки: ${uniq.join(", ").toLowerCase()}.`
+      : "В памятке пока не задействован.";
+  } else {
+    const who=AUTHORS.filter(a=>a.colors.includes(sku)).map(a=>a.name);
+    pairsEl.innerHTML = who.length
+      ? `<b>В наборах:</b> ${who.join(", ")}`+
+        (who.length>1?` <span class="tag">${who.length} из ${AUTHORS.length}</span>`:"")
+      : "";
+    usesEl.textContent=nearestText(p);
+  }
 
   document.querySelectorAll(".pair").forEach(l=>{
-    if(l.dataset.p===undefined) return;          // теоретическая линия комплемента
+    if(l.dataset.p===undefined) return;
     const [a,b]=PAIRS[+l.dataset.p];
-    l.classList.toggle("on",a===n||b===n);
+    l.classList.toggle("on",skuOf[a]===sku||skuOf[b]===sku);
   });
-  document.querySelectorAll(".lbl").forEach(l=>l.classList.toggle("on",l.dataset.n===n));
-  document.querySelectorAll(".dot").forEach(d=>
-    d.setAttribute("stroke-width",d.dataset.n===n?2.4:.8));
+  document.querySelectorAll(".lbl").forEach(l=>l.classList.toggle("on",l.dataset.n===sku));
+  document.querySelectorAll(".dot:not(.mineghost)").forEach(d=>
+    d.setAttribute("stroke-width",
+      d.dataset.n===sku ? 2.4 : (d.classList.contains("cand")?1.4:.8)));
   document.querySelectorAll(".rec").forEach(r=>
-    r.classList.toggle("hit",(r.dataset.mix||"").split("|").includes(n)));
+    r.classList.toggle("hit",(r.dataset.mix||"").split("|").includes(sku)));
+  document.querySelectorAll("#cands .cand").forEach(c=>
+    c.classList.toggle("hit",c.dataset.n===sku));
 
   if(MODE==="theory") markComplement(p);
+}
+
+// «куда встанет»: ближайшая своя краска по кругу
+function nearestText(p){
+  if(!p.placed) return "Измерений нет — на круг поставить нечем.";
+  const near=MY.map(o=>paint(o.sku)).filter(o=>o.placed&&o.sku!==p.sku)
+    .reduce((best,o)=>{const d=sep(p.a,o.a); return (best&&best.d<=d)?best:{o,d};},null);
+  if(!near) return "";
+  return `Ближайшая твоя краска на круге — ${near.o.n} `+
+    `(${Math.round(near.d)}° в стороне, насыщенность ${Math.round(near.o.c*100)}%).`;
 }
 
 function plural(k,one,few,many){
@@ -425,26 +639,81 @@ function plural(k,one,few,many){
   return many;
 }
 
+/* ---------- панель художника ---------- */
+const abox=document.getElementById("authorbox");
+function swatch(p,cls){
+  const s=document.createElement("span");
+  s.className="sw"+(cls||""); s.style.background=p.hex; s.title=p.full;
+  return s;
+}
+function drawAuthor(a){
+  if(!a){ abox.hidden=true; return; }
+  abox.hidden=false;
+  document.getElementById("aname").textContent=a.name+(a.alias?` · ${a.alias}`:"");
+  // краски без измерений в наборе есть, а на круге их нет — говорим об этом прямо
+  const noGeo=a.colors.filter(s=>!paint(s).placed).length;
+  document.getElementById("ameta").textContent=
+    `${a.colors.length} ${plural(a.colors.length,"краска","краски","красок")}`+
+    (noGeo?` · ${noGeo} без измерений`:"")+` · дот-карта ${a.rev}`;
+  document.getElementById("aquote").textContent="«"+a.quote+"»";
+  document.getElementById("abio").textContent=a.bio;
+
+  const links=document.getElementById("alinks");
+  links.replaceChildren();
+  Object.entries(a.links||{}).forEach(([k,v],i)=>{
+    if(i) links.appendChild(document.createTextNode(" · "));
+    if(/^https?:/.test(v)){
+      const x=document.createElement("a"); x.href=v; x.target="_blank"; x.rel="noopener";
+      x.textContent=v.replace(/^https?:\/\/(www\.)?/,"");
+      links.appendChild(x);
+    } else {
+      links.appendChild(document.createTextNode(`${k}: ${v}`));
+    }
+  });
+
+  const his=new Set(a.colors);
+  const only=a.colors.filter(s=>!MINE.has(s));
+  const mineOnly=MY.map(p=>p.sku).filter(s=>!his.has(s));
+  document.getElementById("dh1").textContent=`есть у автора, нет у тебя — ${only.length}`;
+  document.getElementById("dh2").textContent=`есть у тебя, нет у автора — ${mineOnly.length}`;
+  [["donly",only],["dmine",mineOnly]].forEach(([id,list])=>{
+    const ul=document.getElementById(id); ul.replaceChildren();
+    list.map(paint).sort((x,y)=>(x.a??999)-(y.a??999)).forEach(p=>{
+      const li=document.createElement("li");
+      li.appendChild(swatch(p,p.placed?"":" gone"));
+      li.appendChild(document.createTextNode(p.n));
+      li.addEventListener("click",()=>select(p.sku));
+      ul.appendChild(li);
+    });
+  });
+
+  const img=document.getElementById("aexample");
+  img.src=`${a.dir}/${a.example}`; img.alt=`Работа: ${a.name}`;
+  document.getElementById("acredit").textContent=`© ${a.name}`;
+}
+
 /* ---------- памятка ---------- */
+function tag(txt){const s=document.createElement("span");s.className="tag";s.textContent=txt;return s;}
+
 function drawRecipes(){
   const host=document.getElementById("recipes");
   host.replaceChildren();
   RECIPES.forEach(gr=>{
     const h=document.createElement("h3"); h.textContent=gr.g; host.appendChild(h);
     gr.items.forEach(it=>{
-      const missing=it.mix.filter(n=>!activeSet.has(n));
+      const skus=it.mix.map(n=>skuOf[n]);
+      const missing=it.mix.filter(n=>!activeSet.has(skuOf[n]));
       const d=document.createElement("div");
       d.className="rec"+(missing.length?" na":"");
-      d.dataset.mix=it.mix.join("|");
+      d.dataset.mix=skus.join("|");
 
       const mix=document.createElement("div"); mix.className="mix";
       it.mix.forEach((n,i)=>{
-        const p=byName[n];
+        const p=paint(skuOf[n]);
         if(i){ const s=document.createElement("span"); s.className="plus"; s.textContent="+"; mix.appendChild(s); }
-        const sw=document.createElement("span");
-        sw.className="sw"+(activeSet.has(n)?"":" gone");
-        sw.style.background=p?p.hex:"transparent";
-        sw.title=n; sw.addEventListener("click",()=>select(n));
+        const sw=swatch(p,activeSet.has(skuOf[n])?"":" gone");
+        sw.style.cursor="pointer";
+        sw.addEventListener("click",()=>select(skuOf[n]));
         mix.appendChild(sw);
         const nm=document.createElement("span"); nm.className="mixname"; nm.textContent=n;
         mix.appendChild(nm);
@@ -460,45 +729,123 @@ function drawRecipes(){
     });
   });
 }
-function tag(txt){const s=document.createElement("span");s.className="tag";s.textContent=txt;return s;}
 
-/* ---------- «дыра» и подвал ---------- */
-function drawNotes(){
-  document.getElementById("gapnote").innerHTML =
-    "<b>Дыра в наборе — чистый яркий оранжевый.</b> Между Hansa Yellow Deep (53°) и "+
-    "Pyrrol Scarlet (113°) шестьдесят градусов, и единственное, что туда попадает — "+
-    "Burnt Sienna, а она приглушённая (57%). Черепица на закате, ржавчина, тёплые окна "+
-    "изнутри. Мешается из New Gamboge + Pyrrol Scarlet, так что покупать не обязательно, "+
-    "но знать полезно.";
-  const dup = "Pyrrol Red (119°) и Pyrrol Scarlet (113°) — дубли: шесть градусов разницы. "+
-              "В дорожную палитру берётся один.";
-  document.getElementById("foot").textContent =
-    `Всего красок в наличии: ${PIGMENTS.length} · в дорожной палитре: ${ACTIVE.length} · `+
-    `замесов в памятке: ${RECIPES.reduce((s,g)=>s+g.items.length,0)}. `+
-    `Состав правится в data.js. ${dup}`;
+/* ---------- кандидаты ---------- */
+function drawCandidates(){
+  const host=document.getElementById("cands");
+  host.replaceChildren();
+  CANDIDATES.forEach(c=>{
+    const p=paint(c.sku);
+    const d=document.createElement("div");
+    d.className="cand"; d.dataset.n=c.sku;
+
+    const head=document.createElement("div"); head.className="candhead";
+    head.appendChild(swatch(p," gone"));
+    const nm=document.createElement("span"); nm.className="candname"; nm.textContent=c.n;
+    head.appendChild(nm);
+    const ru=document.createElement("span"); ru.className="candru"; ru.textContent=c.ru;
+    head.appendChild(ru);
+    head.appendChild(tag(p.pig));
+    if(p.placed) head.appendChild(tag(`${Math.round(p.a)}° · ${Math.round(p.c*100)}%`));
+    d.appendChild(head);
+    head.addEventListener("click",()=>select(c.sku));
+
+    const t=document.createElement("p"); t.textContent=c.why; d.appendChild(t);
+
+    const s=document.createElement("div"); s.className="candsub";
+    if(c.sub.length){
+      s.innerHTML="<b>Замена:</b> "+
+        c.sub.map(n=>`<span class="nm" data-n="${skuOf[n]}">${n}</span>`).join(" + ")+
+        " — "+c.subt;
+      s.querySelectorAll(".nm").forEach(x=>
+        x.addEventListener("click",()=>select(x.dataset.n)));
+    } else {
+      s.innerHTML="<b>Замены нет.</b> "+c.subt;
+    }
+    d.appendChild(s);
+    host.appendChild(d);
+  });
 }
 
-/* ---------- вкладки ---------- */
+/* ---------- «дыры» и подвал ---------- */
+function drawNotes(){
+  document.getElementById("gapnote").innerHTML=TEXTS.gaps;
+  document.getElementById("rejnote").innerHTML=TEXTS.rejected;
+  const foot=document.getElementById("foot");
+  foot.replaceChildren();
+  const p1=document.createElement("p");
+  p1.textContent=`Красок в наличии: ${MY.length} · в дорожной палитре: ${ACTIVE.length} · `+
+    `кандидатов: ${CANDIDATES.length} · наборов художников: ${AUTHORS.length} · `+
+    `замесов в памятке: ${RECIPES.reduce((s,g)=>s+g.items.length,0)}. `+
+    `Состав правится в data.js. ${TEXTS.dup}`;
+  const p2=document.createElement("p"); p2.innerHTML=TEXTS.sourceGeom;
+  const p3=document.createElement("p"); p3.innerHTML=TEXTS.sourceAuthors;
+  foot.append(p1,p2,p3);
+}
+
+/* ---------- переключение кругов ---------- */
 const tabs={
-  all:   {el:document.getElementById("tab-all"),    txt:`Всё в наличии (${PIGMENTS.length})`},
+  all:   {el:document.getElementById("tab-all"),    txt:`Всё в наличии (${MY.length})`},
   act:   {el:document.getElementById("tab-act"),    txt:`В палитре (${ACTIVE.length})`},
   theory:{el:document.getElementById("tab-theory"), txt:"Теоретический"},
 };
 const leadEl=document.querySelector(".lead");
-const LEAD_WHEEL="Чем ближе пигмент к центру, тем он глуше: в середине живут не цвета, а глушители. Пунктир соединяет комплементарные пары — те, что гасят друг друга в серое. Нажмите на точку.";
-const LEAD_THEORY="Эталонный круг всех тонов. Точки — твои краски: видно, какие тона покрыты, а где дыры. Нажми на краску — напротив загорится её комплемент, тон, который гасит её в серое.";
+const sel=document.getElementById("asel");
+const prevBtn=document.getElementById("aprev"), nextBtn=document.getElementById("anext");
 
-function show(which){
+function show(which,authorId){
   MODE=which;
+  AUTHOR = which==="author" ? authorById[authorId] : null;
   for(const k in tabs) tabs[k].el.classList.toggle("on",k===which);
-  leadEl.textContent = which==="theory" ? LEAD_THEORY : LEAD_WHEEL;
+  sel.value = AUTHOR ? AUTHOR.id : "";
+  sel.classList.toggle("on",!!AUTHOR);
+  const i=AUTHORS.findIndex(a=>a===AUTHOR);
+  prevBtn.disabled = i<=0;
+  nextBtn.disabled = i===AUTHORS.length-1;
+
+  leadEl.textContent = which==="theory" ? TEXTS.leadTheory
+                     : which==="author" ? TEXTS.leadAuthor : TEXTS.leadWheel;
+  drawAuthor(AUTHOR);
+
   if(which==="theory") drawTheory();
-  else drawWheel(which==="all" ? PIGMENTS.map(p=>p.n) : ACTIVE);
+  else if(which==="author") drawWheel(AUTHOR.colors,{pairs:false,cands:false});
+  else drawWheel(which==="all" ? MY.map(p=>p.sku) : ACTIVE.map(n=>skuOf[n]),
+                 {pairs:true,cands:SHOWCAND});
 }
-for(const k in tabs){ tabs[k].el.textContent=tabs[k].txt;
-  tabs[k].el.addEventListener("click",()=>show(k)); }
+
+for(const k in tabs){
+  tabs[k].el.textContent=tabs[k].txt;
+  tabs[k].el.addEventListener("click",()=>show(k));
+}
+
+sel.replaceChildren();
+const opt0=document.createElement("option");
+opt0.value=""; opt0.textContent=`Художник… (${AUTHORS.length})`;
+sel.appendChild(opt0);
+AUTHORS.forEach(a=>{
+  const o=document.createElement("option");
+  o.value=a.id; o.textContent=`${a.name} · ${a.colors.length}`;
+  sel.appendChild(o);
+});
+sel.addEventListener("change",()=>{ sel.value ? show("author",sel.value) : show("all"); });
+
+function stepAuthor(d){
+  const i=AUTHORS.findIndex(a=>a===AUTHOR);
+  const j = i<0 ? (d>0?0:AUTHORS.length-1) : i+d;
+  if(j>=0 && j<AUTHORS.length) show("author",AUTHORS[j].id);
+}
+prevBtn.addEventListener("click",()=>stepAuthor(-1));
+nextBtn.addEventListener("click",()=>stepAuthor(1));
+
+const candBox=document.getElementById("showcand");
+document.getElementById("candtogtxt").textContent=`кандидаты (${CANDIDATES.length})`;
+candBox.addEventListener("change",()=>{ SHOWCAND=candBox.checked; show(MODE,AUTHOR&&AUTHOR.id); });
+
+const ghostBox=document.getElementById("ghostbox");
+ghostBox.addEventListener("change",()=>{ GHOST=ghostBox.checked; show(MODE,AUTHOR&&AUTHOR.id); });
 
 drawRecipes();
+drawCandidates();
 drawNotes();
 show("all");
 </script>

@@ -100,9 +100,21 @@
 
 </div>
 
+<script src="catalog.js"></script>
 <script src="data.js"></script>
 <script>
 const activeSet=new Set(ACTIVE);
+
+/* Краски = рукописная часть из data.js + пигменты и геометрия из catalog.js.
+   Раньше всё лежало одним списком PIGMENTS; теперь измеренное отделено
+   от того, что пишется руками, и таблица склеивает обе половины. */
+const PIGMENTS = MY.map(m=>{
+  const d = DS[m.sku] || {};
+  return { n:m.n, ru:m.ru, brand:m.brand, code:m.sku.slice(-3),
+           pig: d.pig || m.pig || "",
+           a: m.a!==undefined ? m.a : d.a,
+           hex: m.hex || d.hex || "#B9B3A5" };
+});
 
 /* семейства пигментов: порядок столбцов и цвет точки */
 const FAM=[
