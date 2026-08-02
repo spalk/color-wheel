@@ -9,3 +9,11 @@ Thumbs.db
 .idea/
 .vscode/
 
+
+# Чужие исходники в репозиторий не едут: дот-карты Daniel Smith помечены
+# NOT FOR RESALE, работы принадлежат авторам, а репозиторий под MIT.
+# Своя расшифровка — authors/*/palette.json — коммитится.
+# На сайт картинки всё равно попадают: deploy.sh копирует из рабочей папки.
+authors/*/dot-card.*
+authors/*/example.*
+scripts/ds-pigment-characteristics.pdf
