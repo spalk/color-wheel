@@ -1,0 +1,105 @@
+{
+ "id": "david-taylor",
+ "name": "David Taylor",
+ "palette": "David Taylor Palette",
+ "source": {
+  "type": "dot-card",
+  "publisher": "DANIEL SMITH Extra Fine Watercolor",
+  "file": "dot-card.jpg",
+  "code": "1901076",
+  "rev": "01/22",
+  "page": "https://danielsmith.com/brand-ambassadors/"
+ },
+ "example": {
+  "file": "example.jpg",
+  "credit": "David Taylor",
+  "note": "права у автора — при публикации нужна подпись и ссылка"
+ },
+ "links": {
+  "site": "https://www.davidtaylorartist.com"
+ },
+ "quote": "What I find useful, and exciting, is the way in which the DANIEL SMITH Watercolours granulate — adding poetic dimension to the work I create. I chose a vast range of colours from DANIEL SMITH for my palette, and have enjoyed the journey of working with them and look forward to more exploration.",
+ "bio": "Член элитного Австралийского акварельного института, преподаёт по всему миру. Более ста наград, включая золотую медаль Herald Sun Best Of Show на Camberwell Rotary Exhibition 2002 и серебро 1976 и 2007 годов. Художник года Викторианского общества художников в 1976, 1980 и 1989-м; в том же 1989-м получил Distinguished Leadership Award за вклад в акварель и преподавание.",
+ "colors": [
+  {
+   "sku": "284600064",
+   "n": "Organic Vermilion"
+  },
+  {
+   "sku": "284600056",
+   "n": "Monte Amiata Natural Sienna"
+  },
+  {
+   "sku": "284600061",
+   "n": "Nickel Azo Yellow"
+  },
+  {
+   "sku": "284600051",
+   "n": "Manganese Blue Hue"
+  },
+  {
+   "sku": "284600025",
+   "n": "Cobalt Blue"
+  },
+  {
+   "sku": "284600034",
+   "n": "French Ultramarine"
+  },
+  {
+   "sku": "284600028",
+   "n": "Cobalt Teal Blue"
+  },
+  {
+   "sku": "284600057",
+   "n": "Moonglow"
+  },
+  {
+   "sku": "284600134",
+   "n": "French Ochre"
+  },
+  {
+   "sku": "284600162",
+   "n": "Burnt Tiger's Eye Genuine"
+  },
+  {
+   "sku": "284600184",
+   "n": "Cadmium Yellow Medium Hue"
+  },
+  {
+   "sku": "284600197",
+   "n": "Green Apatite Genuine"
+  },
+  {
+   "sku": "284600090",
+   "n": "Quinacridone Magenta"
+  },
+  {
+   "sku": "284600103",
+   "n": "Sepia"
+  },
+  {
+   "sku": "284600011",
+   "n": "Burnt Umber"
+  },
+  {
+   "sku": "284600194",
+   "n": "Perylene Green"
+  },
+  {
+   "sku": "284600109",
+   "n": "Undersea Green"
+  },
+  {
+   "sku": "284600130",
+   "n": "Transparent Red Oxide"
+  },
+  {
+   "sku": "284600071",
+   "n": "Permanent Orange"
+  },
+  {
+   "sku": "284600043",
+   "n": "Indanthrone Blue"
+  }
+ ]
+}

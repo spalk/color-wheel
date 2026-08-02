@@ -1,0 +1,96 @@
+{
+ "id": "alvaro-castagnet",
+ "name": "Alvaro Castagnet",
+ "palette": "Alvaro Castagnet Palette",
+ "source": {
+  "type": "dot-card",
+  "publisher": "DANIEL SMITH Extra Fine Watercolor",
+  "file": "dot-card.avif",
+  "code": "999001079",
+  "rev": "08/20",
+  "page": "https://danielsmith.com/brand-ambassadors/"
+ },
+ "example": {
+  "file": "example.jpg",
+  "credit": "Alvaro Castagnet",
+  "note": "права у автора — при публикации нужна подпись и ссылка"
+ },
+ "links": {
+  "site": "https://www.alvarocastagnet.net"
+ },
+ "quote": "I like DANIEL SMITH watercolor paints for their good quality and deep chromatic intensity. The hues blend very well, are luminous, have good sedimentary traits and are great for creating paintings that make an expressionistic, gutsy statement! Together with their permanent durability and a beautiful array of reds, they suit my passion to the T!!!",
+ "bio": "Мастер-акварелист с международным именем, обладатель высших наград крупнейших конкурсов, член самых престижных акварельных обществ мира. Печатается в международных изданиях, издаёт книги. Постоянно ездит по миру с демонстрациями, лекциями, выставками и судейством. Работы в частных и корпоративных собраниях.",
+ "colors": [
+  {
+   "sku": "284600040",
+   "n": "Hansa Yellow Deep"
+  },
+  {
+   "sku": "284600064",
+   "n": "Organic Vermilion"
+  },
+  {
+   "sku": "284600084",
+   "n": "Pyrrol Red"
+  },
+  {
+   "sku": "284600232",
+   "n": "Lavender"
+  },
+  {
+   "sku": "284600106",
+   "n": "Ultramarine Blue"
+  },
+  {
+   "sku": "284600025",
+   "n": "Cobalt Blue"
+  },
+  {
+   "sku": "284600028",
+   "n": "Cobalt Teal Blue"
+  },
+  {
+   "sku": "284600112",
+   "n": "Viridian"
+  },
+  {
+   "sku": "284600114",
+   "n": "Yellow Ochre"
+  },
+  {
+   "sku": "284600230",
+   "n": "Burnt Sienna Light",
+   "pig": "PR101 PO48",
+   "nodata": true,
+   "note": "нет на карте CIELab: краска сделана для этого набора и в общий ассортимент не попала"
+  },
+  {
+   "sku": "284600103",
+   "n": "Sepia"
+  },
+  {
+   "sku": "284600126",
+   "n": "Pyrrol Orange"
+  },
+  {
+   "sku": "284600033",
+   "n": "Deep Scarlet"
+  },
+  {
+   "sku": "284600243",
+   "n": "Alvaro's Caliente Grey"
+  },
+  {
+   "sku": "284600242",
+   "n": "Alvaro's Fresco Grey"
+  },
+  {
+   "sku": "284600229",
+   "n": "Neutral Tint"
+  },
+  {
+   "sku": "284600023",
+   "n": "Chinese White"
+  }
+ ]
+}

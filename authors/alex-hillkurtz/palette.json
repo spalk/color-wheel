@@ -1,0 +1,44 @@
+{
+ "id": "alex-hillkurtz",
+ "name": "Alex Hillkurtz",
+ "palette": "Alex Hillkurtz Palette",
+ "source": {
+  "type": "dot-card",
+  "file": "dot-card.avif",
+  "publisher": "DANIEL SMITH Extra Fine Watercolor",
+  "code": "999001150",
+  "rev": "10/20"
+ },
+ "example": {
+  "file": "example.jpg",
+  "credit": "Alex Hillkurtz",
+  "note": "права у автора — при публикации нужна подпись и ссылка"
+ },
+ "links": {
+  "site": "https://AlexHillkurtzArt.com",
+  "instagram": "https://instagram.com/hillkurtz",
+  "facebook": "https://facebook.com/AlexHillkurtzArt"
+ },
+ "quote": "For me watercolor painting is like a dance, sometimes I'm leading, and other times the paint, the paper, the environment lead me, creating something unique and alive. And in this dance, I've found no better partner than DANIEL SMITH watercolors. The richness and vibrancy of their colors, the textures and organic nature of their granulation, the quality and beauty of their pigments, offer a lifetime of creative expression.",
+ "bio": "Акварелист, живёт и работает в Париже. Родился в Англии, вырос в Калифорнии, в Голливуде был известным художником раскадровок и работал с ведущими режиссёрами и операторами. Язык кино и визуального сторителлинга перенёс в акварель: пишет не то, что видит, а то, что хочет показать. Главная тема — свет и тень, ускользающее солнце на архитектуре. Выставлялся в Париже, Милане, Венеции; ведёт мастер-классы по всему миру.",
+ "colors": [
+  { "sku": "284600106", "n": "Ultramarine Blue",       "card": "Ultramarine Blue" },
+  { "sku": "284600085", "n": "Pyrrol Scarlet",         "card": "Pyrrol Scarlet" },
+  { "sku": "284600064", "n": "Organic Vermilion",      "card": "Organic Vermilion" },
+  { "sku": "284600025", "n": "Cobalt Blue",            "card": "Cobalt Blue" },
+  { "sku": "284600021", "n": "Cerulean Blue Chromium", "card": "Cerulean Blue, Chrm." },
+  { "sku": "284600044", "n": "Indian Red",             "card": "Indian Red" },
+  { "sku": "284600010", "n": "Burnt Sienna",           "card": "Burnt Sienna" },
+  { "sku": "284600093", "n": "Quinacridone Sienna",    "card": "Quinacridone Sienna" },
+  { "sku": "284600096", "n": "Raw Sienna",             "card": "Raw Sienna" },
+  { "sku": "284600179", "n": "Sodalite Genuine",       "card": "Sodalite Genuine" },
+  { "sku": "284600156", "n": "Hematite Genuine",       "card": "Hematite Genuine" },
+  { "sku": "284600077", "n": "Phthalo Blue (Green Shade)", "card": "Phthalo Blue (GS)" },
+  { "sku": "284600039", "n": "Hansa Yellow Medium",    "card": "Hansa Yellow Medium" },
+  { "sku": "284600029", "n": "Cobalt Turquoise",       "card": "Cobalt Turquoise" },
+  { "sku": "284600091", "n": "Quinacridone Red",       "card": "Quinacridone Red" },
+  { "sku": "284600225", "n": "Quinacridone Purple",    "card": "Quinacridone Purple" },
+  { "sku": "284600114", "n": "Yellow Ochre",           "card": "Yellow Ochre" },
+  { "sku": "284600033", "n": "Deep Scarlet",           "card": "Deep Scarlet" }
+ ]
+}

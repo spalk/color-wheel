@@ -1,0 +1,98 @@
+{
+ "id": "eduardo-angelini",
+ "name": "Eduardo C. Angelini",
+ "palette": "Eduardo C. Angelini Palette",
+ "source": {
+  "type": "dot-card",
+  "publisher": "DANIEL SMITH Extra Fine Watercolor",
+  "file": "dot-card.avif",
+  "code": "999001295",
+  "rev": "07/24",
+  "page": "https://danielsmith.com/brand-ambassadors/"
+ },
+ "example": {
+  "file": "example.jpg",
+  "credit": "Eduardo C. Angelini",
+  "note": "права у автора — при публикации нужна подпись и ссылка"
+ },
+ "links": {
+  "instagram": "https://instagram.com/Eduardo_angelini_acuarelas",
+  "facebook": "Eduardo C. Angelini"
+ },
+ "quote": "At that time when I first started using watercolours, in Argentina we did not have many possibilities to have quality materials, so I got used to working with what was available, but communications have made it easier to get to know new products. I discovered DANIEL SMITH and that was a rebirth of my art: the quality of its pigments, its intensity, its textures, its endless possibilities, have made me a fan of the brand, because I am sure that it will continue to advance in its development and I want to be there.",
+ "bio": "Родился 1 мая 1953 года в Рио-Куарто, Аргентина. Техническое образование, в акварели самоучка: в 1987-м бросил масло и посвятил себя целиком акварели, изучая доступные тогда книги. Много пишет на пленэре. С марта 2002 года ведёт мастерскую и считает, что преподаватель учится у студентов не меньше, чем они у него. Работы в собраниях Латинской Америки, Испании, Италии, Германии, Франции и США, более ста персональных и групповых выставок. В марте 2024-го организовал первый международный акварельный фестиваль YAKU Argentina в Рио-Куарто.",
+ "colors": [
+  {
+   "sku": "284600165",
+   "n": "Lemon Yellow"
+  },
+  {
+   "sku": "284600234",
+   "n": "Aussie Red Gold"
+  },
+  {
+   "sku": "284600220",
+   "n": "Cadmium Orange Hue"
+  },
+  {
+   "sku": "284600090",
+   "n": "Quinacridone Magenta"
+  },
+  {
+   "sku": "284600057",
+   "n": "Moonglow"
+  },
+  {
+   "sku": "284600046",
+   "n": "Indigo"
+  },
+  {
+   "sku": "284600034",
+   "n": "French Ultramarine"
+  },
+  {
+   "sku": "284600025",
+   "n": "Cobalt Blue"
+  },
+  {
+   "sku": "284600232",
+   "n": "Lavender"
+  },
+  {
+   "sku": "284600206",
+   "n": "Cerulean Blue"
+  },
+  {
+   "sku": "284600102",
+   "n": "Sap Green"
+  },
+  {
+   "sku": "284600068",
+   "n": "Permanent Brown"
+  },
+  {
+   "sku": "284600238",
+   "n": "Quinacridone Gold"
+  },
+  {
+   "sku": "284600103",
+   "n": "Sepia"
+  },
+  {
+   "sku": "284600110",
+   "n": "Van Dyck Brown"
+  },
+  {
+   "sku": "284600065",
+   "n": "Payne's Gray"
+  },
+  {
+   "sku": "284600049",
+   "n": "Lunar Black"
+  },
+  {
+   "sku": "284600118",
+   "n": "Titanium White"
+  }
+ ]
+}
