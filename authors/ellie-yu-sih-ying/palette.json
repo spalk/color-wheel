@@ -1,0 +1,103 @@
+{
+ "id": "ellie-yu-sih-ying",
+ "name": "Yu Sih Ying",
+ "alias": "Ellie",
+ "palette": "Yu Sih Ying Palette",
+ "source": {
+  "type": "dot-card",
+  "publisher": "DANIEL SMITH Extra Fine Watercolor",
+  "file": "dot-card.avif",
+  "code": "999001342",
+  "rev": "04/26",
+  "page": "https://danielsmith.com/brand-ambassadors/"
+ },
+ "example": {
+  "file": "example.jpg",
+  "credit": "Yu Sih Ying",
+  "note": "права у автора — при публикации нужна подпись и ссылка"
+ },
+ "links": {
+  "instagram": "https://instagram.com/yu.sih.ying",
+  "facebook": "阿力（余思瑩）Ellie Fine Art",
+  "email": "super.lara001@gmail.com"
+ },
+ "quote": "When painting in watercolor, I enjoy integrating ink tones to enhance the depth and layers of my work. The unique granulation effects of DANIEL SMITH watercolors blend perfectly with the rhythmic essence of traditional ink, creating entirely new and captivating colors. Because of these distinct product characteristics, I feel empowered to be more bold and expressive, pushing the boundaries of what these pigments can do to render the most beautiful and soulful personal style.",
+ "bio": "Художница из Тайваня. Скетчинг для неё — способ документировать повседневность: от тихих статичных сцен до общественных событий, выборов, праздников и храмовых шествий. Соединяет акварель с тушью, переводя мимолётное в визуальный рассказ между наблюдением и памятью — чтобы зритель встречал работу не как далёкий образ, а как общий опыт.",
+ "colors": [
+  {
+   "sku": "284600184",
+   "n": "Cadmium Yellow Medium Hue",
+   "card": "Cad. Yellow Med. Hue"
+  },
+  {
+   "sku": "284600165",
+   "n": "Lemon Yellow"
+  },
+  {
+   "sku": "284600040",
+   "n": "Hansa Yellow Deep"
+  },
+  {
+   "sku": "284600126",
+   "n": "Pyrrol Orange"
+  },
+  {
+   "sku": "284600071",
+   "n": "Permanent Orange"
+  },
+  {
+   "sku": "284600084",
+   "n": "Pyrrol Red"
+  },
+  {
+   "sku": "284600106",
+   "n": "Ultramarine Blue"
+  },
+  {
+   "sku": "284600119",
+   "n": "Phthalo Blue (Red Shade)",
+   "card": "Phthalo Blue (RS)"
+  },
+  {
+   "sku": "284600194",
+   "n": "Perylene Green"
+  },
+  {
+   "sku": "284600063",
+   "n": "Olive Green"
+  },
+  {
+   "sku": "284600139",
+   "n": "Green Gold"
+  },
+  {
+   "sku": "284600114",
+   "n": "Yellow Ochre"
+  },
+  {
+   "sku": "284600111",
+   "n": "Venetian Red"
+  },
+  {
+   "sku": "284600156",
+   "n": "Hematite Genuine"
+  },
+  {
+   "sku": "284600068",
+   "n": "Permanent Brown"
+  },
+  {
+   "sku": "284600178",
+   "n": "Enviro-Friendly Brown Iron Oxide",
+   "card": "E-F Brown Iron Oxide"
+  },
+  {
+   "sku": "284600110",
+   "n": "Van Dyck Brown"
+  },
+  {
+   "sku": "284600049",
+   "n": "Lunar Black"
+  }
+ ]
+}
