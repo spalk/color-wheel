@@ -4,6 +4,31 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Палитра на цветовом круге</title>
+<script>
+/* Ловушка ошибок. Стоит первой и до остальных скриптов, чтобы поймать в том
+   числе ошибку разбора: без неё упавший скрипт даёт молча пустую страницу,
+   и понять причину можно только через консоль. */
+window.__errs = [];
+function __showErrs(){
+  if(!window.__errs.length) return;
+  var w = document.getElementById("warn");
+  if(!w) return;
+  w.style.display = "block";
+  w.innerHTML = "<b>Скрипт не отработал:</b><br>" +
+    window.__errs.map(function(s){ return s.replace(/[<&]/g, function(c){
+      return c === "<" ? "&lt;" : "&amp;"; }); }).join("<br>");
+}
+window.addEventListener("error", function(e){
+  if(e.target && e.target.tagName === "SCRIPT"){          // файл не загрузился
+    window.__errs.push("не загрузился " + (e.target.src || "инлайн-скрипт"));
+  } else {
+    window.__errs.push((e.message || "ошибка") +
+      (e.filename ? " — " + e.filename.split("/").pop() + ":" + e.lineno : ""));
+  }
+  __showErrs();
+}, true);
+document.addEventListener("DOMContentLoaded", __showErrs);
+</script>
 <style>
   :root{
     --paper:#E6E3DA;
@@ -144,8 +169,8 @@
   #alinks{margin:10px 0 0;font-size:13.5px;}
   #alinks a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--rule);}
   #alinks a:hover{border-color:var(--ink);}
-  .diff{display:flex;gap:26px;flex-wrap:wrap;margin:16px 0 0;}
-  .diff > div{flex:1 1 240px;min-width:0;}
+  .diff{display:flex;gap:22px;flex-wrap:wrap;margin:16px 0 0;}
+  .diff > div{flex:1 1 200px;min-width:0;}
   .diffh{
     font-family:ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:.1em;
     text-transform:uppercase;color:var(--ink-soft);margin-bottom:6px;
@@ -271,6 +296,7 @@
   <p id="alinks"></p>
   <div class="diff">
     <div><div class="diffh" id="dh1"></div><ul id="donly"></ul></div>
+    <div><div class="diffh" id="dh3"></div><ul id="dboth"></ul></div>
     <div><div class="diffh" id="dh2"></div><ul id="dmine"></ul></div>
   </div>
   <figure id="afig"><img id="aexample" alt="" loading="lazy"><figcaption id="acredit"></figcaption></figure>
@@ -569,7 +595,7 @@ function select(sku){
   else bits.push("нет измерений");
   if(p.gran===1) bits.push("гранулирует");
   if(cd) bits.push("кандидат — нет в наличии");
-  else if(!p.mine) bits.push("не в твоём наборе");
+  else if(!p.mine) bits.push("не в моём наборе");
   else if(!activeSet.has(sku)) bits.push("нет в дорожной палитре");
   meta.textContent=bits.join(" · ");
 
@@ -628,7 +654,7 @@ function nearestText(p){
   const near=MY.map(o=>paint(o.sku)).filter(o=>o.placed&&o.sku!==p.sku)
     .reduce((best,o)=>{const d=sep(p.a,o.a); return (best&&best.d<=d)?best:{o,d};},null);
   if(!near) return "";
-  return `Ближайшая твоя краска на круге — ${near.o.n} `+
+  return `Ближайшая моя краска на круге — ${near.o.n} `+
     `(${Math.round(near.d)}° в стороне, насыщенность ${Math.round(near.o.c*100)}%).`;
 }
 
@@ -671,12 +697,15 @@ function drawAuthor(a){
     }
   });
 
+  // три колонки читаются слева направо как диаграмма: его — общее — моё
   const his=new Set(a.colors);
   const only=a.colors.filter(s=>!MINE.has(s));
+  const both=a.colors.filter(s=>MINE.has(s));
   const mineOnly=MY.map(p=>p.sku).filter(s=>!his.has(s));
-  document.getElementById("dh1").textContent=`есть у автора, нет у тебя — ${only.length}`;
-  document.getElementById("dh2").textContent=`есть у тебя, нет у автора — ${mineOnly.length}`;
-  [["donly",only],["dmine",mineOnly]].forEach(([id,list])=>{
+  document.getElementById("dh1").textContent=`есть у автора, нет у меня — ${only.length}`;
+  document.getElementById("dh3").textContent=`общие с автором — ${both.length}`;
+  document.getElementById("dh2").textContent=`есть у меня, нет у автора — ${mineOnly.length}`;
+  [["donly",only],["dboth",both],["dmine",mineOnly]].forEach(([id,list])=>{
     const ul=document.getElementById(id); ul.replaceChildren();
     list.map(paint).sort((x,y)=>(x.a??999)-(y.a??999)).forEach(p=>{
       const li=document.createElement("li");
@@ -689,7 +718,7 @@ function drawAuthor(a){
 
   const img=document.getElementById("aexample");
   img.src=`${a.dir}/${a.example}`; img.alt=`Работа: ${a.name}`;
-  document.getElementById("acredit").textContent=`© ${a.name}`;
+  document.getElementById("acredit").textContent=`© ${a.name} · ${TEXTS.exampleNote}`;
 }
 
 /* ---------- памятка ---------- */
@@ -844,10 +873,16 @@ candBox.addEventListener("change",()=>{ SHOWCAND=candBox.checked; show(MODE,AUTH
 const ghostBox=document.getElementById("ghostbox");
 ghostBox.addEventListener("change",()=>{ GHOST=ghostBox.checked; show(MODE,AUTHOR&&AUTHOR.id); });
 
-drawRecipes();
-drawCandidates();
-drawNotes();
-show("all");
+try {
+  drawRecipes();
+  drawCandidates();
+  drawNotes();
+  show("all");
+} catch (e) {
+  window.__errs.push("при отрисовке: " + (e && e.stack ? e.stack.split("\n")[0] +
+    " | " + (e.stack.split("\n")[1] || "").trim() : e));
+  __showErrs();
+}
 </script>
 </body>
 </html>
