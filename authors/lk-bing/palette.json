@@ -1,0 +1,98 @@
+{
+ "id": "lk-bing",
+ "name": "LK Bing",
+ "palette": "LK Bing Palette",
+ "source": {
+  "type": "dot-card",
+  "publisher": "DANIEL SMITH Extra Fine Watercolor",
+  "file": "dot-card.jpg",
+  "code": "999001137",
+  "rev": "10/20",
+  "page": "https://danielsmith.com/brand-ambassadors/"
+ },
+ "example": {
+  "file": "example.jpg",
+  "credit": "LK Bing",
+  "note": "права у автора — при публикации нужна подпись и ссылка"
+ },
+ "links": {
+  "site": "https://www.lkbing.com",
+  "instagram": "https://instagram.com/lkbing"
+ },
+ "quote": "A harmonious color composition in a dramatic atmosphere is something which is very important in each of my works. DANIEL SMITH Watercolors have a complete variety color characteristics. Luminous transparency, beautiful granulation, neutral and high intensity colors are all present in DANIEL SMITH's color palette. All of these advantageous features provide a huge convenience in the process of creating artwork with rich character and artistic quality.",
+ "bio": "Архитектор по образованию: одиннадцать лет преподавал в университете и заведовал студией дизайна и архитектуры в Сурабае, Индонезия. Сейчас ведёт собственное проектное бюро и параллельно работает как художник. Платиновая награда фестиваля «Old Cities Sketching» 2016 года, участник множества выставок. В свободное время — городской скетчер, его зовут вести симпозиумы в Азии, Европе и США; работы разошлись по частным коллекциям.",
+ "colors": [
+  {
+   "sku": "284600165",
+   "n": "Lemon Yellow"
+  },
+  {
+   "sku": "284600056",
+   "n": "Monte Amiata Natural Sienna"
+  },
+  {
+   "sku": "284600220",
+   "n": "Cadmium Orange Hue"
+  },
+  {
+   "sku": "284600219",
+   "n": "Cadmium Red Scarlet Hue"
+  },
+  {
+   "sku": "284600185",
+   "n": "Permanent Alizarin Crimson"
+  },
+  {
+   "sku": "284600093",
+   "n": "Quinacridone Sienna"
+  },
+  {
+   "sku": "284600025",
+   "n": "Cobalt Blue"
+  },
+  {
+   "sku": "284600173",
+   "n": "Verditer Blue"
+  },
+  {
+   "sku": "284600206",
+   "n": "Cerulean Blue"
+  },
+  {
+   "sku": "284600183",
+   "n": "Lunar Blue"
+  },
+  {
+   "sku": "284600082",
+   "n": "Prussian Blue"
+  },
+  {
+   "sku": "284600029",
+   "n": "Cobalt Turquoise"
+  },
+  {
+   "sku": "284600241",
+   "n": "Gray Titanium"
+  },
+  {
+   "sku": "284600190",
+   "n": "Serpentine Genuine"
+  },
+  {
+   "sku": "284600110",
+   "n": "Van Dyck Brown"
+  },
+  {
+   "sku": "284600229",
+   "n": "Neutral Tint"
+  },
+  {
+   "sku": "284600188",
+   "n": "Shadow Violet"
+  },
+  {
+   "sku": "284600118",
+   "n": "Titanium White"
+  }
+ ]
+}

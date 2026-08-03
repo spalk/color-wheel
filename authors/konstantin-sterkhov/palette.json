@@ -1,0 +1,98 @@
+{
+ "id": "konstantin-sterkhov",
+ "name": "Konstantin Sterkhov",
+ "alias": "Константин Стерхов",
+ "palette": "Konstantin Sterkhov Palette",
+ "source": {
+  "type": "dot-card",
+  "publisher": "DANIEL SMITH Extra Fine Watercolor",
+  "file": "dot-card.avif",
+  "code": "1901240",
+  "rev": "07/17",
+  "page": "https://danielsmith.com/brand-ambassadors/"
+ },
+ "example": {
+  "file": "example.jpg",
+  "credit": "Konstantin Sterkhov",
+  "note": "права у автора — при публикации нужна подпись и ссылка"
+ },
+ "links": {
+  "site": "https://www.sterkhovart.com"
+ },
+ "quote": "As soon as I started using DANIEL SMITH paints I felt a new dimension in the work with colors. Despite the unbelievable range of available colors I could limit my palette to 18 colors and that is a great thing when you constantly travel for workshops. Apart from that practical advantage I was surprised to find out that I can mix now more than 3 colors and it never looks muddy. All mixtures give a beautiful-pearly shades that can be easily turned into something great by color accents put next to them by pure colors. Another discovering was granulation. It creates new depth in painting.",
+ "bio": "Выпускник Академии художеств имени Репина, больше двадцати лет занимается акварелью. Член Союза художников России, Петербургского общества акварелистов и Финского акварельного общества. За пять лет записал около полусотни видеокурсов, автор книжной серии «Мастера акварели» с интервью ведущих художников по водным медиа. Известен психологическими портретами и лирическими пейзажами, где вода во всех её видах — от штормового моря до лесного озера. Постоянно ездит с мастер-классами и судит международные конкурсы.",
+ "colors": [
+  {
+   "sku": "284600041",
+   "n": "Hansa Yellow Light"
+  },
+  {
+   "sku": "284600126",
+   "n": "Pyrrol Orange"
+  },
+  {
+   "sku": "284600085",
+   "n": "Pyrrol Scarlet"
+  },
+  {
+   "sku": "284600092",
+   "n": "Quinacridone Rose"
+  },
+  {
+   "sku": "284600101",
+   "n": "Rose of Ultramarine"
+  },
+  {
+   "sku": "284600057",
+   "n": "Moonglow"
+  },
+  {
+   "sku": "284600034",
+   "n": "French Ultramarine"
+  },
+  {
+   "sku": "284600173",
+   "n": "Verditer Blue"
+  },
+  {
+   "sku": "284600051",
+   "n": "Manganese Blue Hue"
+  },
+  {
+   "sku": "284600046",
+   "n": "Indigo"
+  },
+  {
+   "sku": "284600065",
+   "n": "Payne's Gray"
+  },
+  {
+   "sku": "284600105",
+   "n": "Ultramarine Turquoise"
+  },
+  {
+   "sku": "284600099",
+   "n": "Rich Green Gold"
+  },
+  {
+   "sku": "284600114",
+   "n": "Yellow Ochre"
+  },
+  {
+   "sku": "284600096",
+   "n": "Raw Sienna"
+  },
+  {
+   "sku": "284600145",
+   "n": "Sedona Genuine"
+  },
+  {
+   "sku": "284600011",
+   "n": "Burnt Umber"
+  },
+  {
+   "sku": "284600161",
+   "n": "Tiger's Eye Genuine"
+  }
+ ]
+}

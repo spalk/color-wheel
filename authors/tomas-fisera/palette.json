@@ -1,0 +1,99 @@
+{
+ "id": "tomas-fisera",
+ "name": "Tomáš Fišera",
+ "palette": "Tomáš Fišera Palette",
+ "source": {
+  "type": "dot-card",
+  "publisher": "DANIEL SMITH Extra Fine Watercolor",
+  "file": "dot-card.avif",
+  "code": "999001297",
+  "rev": "07/24",
+  "page": "https://danielsmith.com/brand-ambassadors/"
+ },
+ "example": {
+  "file": "example.jpg",
+  "credit": "Tomáš Fišera",
+  "note": "права у автора — при публикации нужна подпись и ссылка"
+ },
+ "links": {
+  "site": "https://www.tomasfisera.com",
+  "instagram": "https://instagram.com/tomasfiserawatercolor",
+  "facebook": "https://www.facebook.com/tomas.tomislav.35"
+ },
+ "quote": "Being able to capture a scene spontaneously and relatively quickly in a given moment is very important to me and that's why DANIEL SMITH pigments suit me so well, due to their intensivity, richness and natural shades. I also love textures, granulation of certain shades are wonderful to use in contrast, combined with the lightness and purity that allow even the smallest details to stand out.",
+ "bio": "Родился в 1983 году в Праге в семье художников, рисует с детства; учился графическому дизайну, а последние несколько лет занимается только акварелью. Пишет пейзаж и город на пленэре — динамично и экспрессивно, ловя свет и настроение места так, чтобы зритель достраивал сцену сам. Работы показывали в Испании, Флориде, Чехии, Сингапуре, Индии, Италии, Словении, Словакии, Таиланде, Индонезии и Польше. Ведёт мастер-классы и сооснователь ежегодного международного акварельного фестиваля Prague Pleinair.",
+ "colors": [
+  {
+   "sku": "284600039",
+   "n": "Hansa Yellow Medium"
+  },
+  {
+   "sku": "284600216",
+   "n": "Mayan Orange"
+  },
+  {
+   "sku": "284600057",
+   "n": "Moonglow"
+  },
+  {
+   "sku": "284600106",
+   "n": "Ultramarine Blue"
+  },
+  {
+   "sku": "284600025",
+   "n": "Cobalt Blue"
+  },
+  {
+   "sku": "284600232",
+   "n": "Lavender"
+  },
+  {
+   "sku": "284600028",
+   "n": "Cobalt Teal Blue"
+  },
+  {
+   "sku": "284600029",
+   "n": "Cobalt Turquoise"
+  },
+  {
+   "sku": "284600183",
+   "n": "Lunar Blue"
+  },
+  {
+   "sku": "284600142",
+   "n": "Cascade Green"
+  },
+  {
+   "sku": "284600194",
+   "n": "Perylene Green"
+  },
+  {
+   "sku": "284600114",
+   "n": "Yellow Ochre"
+  },
+  {
+   "sku": "284600141",
+   "n": "Lunar Red Rock"
+  },
+  {
+   "sku": "284600191",
+   "n": "Piemontite Genuine"
+  },
+  {
+   "sku": "284600010",
+   "n": "Burnt Sienna"
+  },
+  {
+   "sku": "284600193",
+   "n": "Bloodstone Genuine"
+  },
+  {
+   "sku": "284600065",
+   "n": "Payne's Gray"
+  },
+  {
+   "sku": "284600049",
+   "n": "Lunar Black"
+  }
+ ]
+}
