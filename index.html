@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Палитра на цветовом круге</title>
+<title>Urban Sketch Palette</title>
 <script>
 /* Ловушка ошибок. Стоит первой и до остальных скриптов, чтобы поймать в том
    числе ошибку разбора: без неё упавший скрипт даёт молча пустую страницу,
@@ -57,6 +57,7 @@ document.addEventListener("DOMContentLoaded", __showErrs);
     font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
     font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-soft);
   }
+  .sub.axes{margin-top:3px;opacity:.8;}
   .lead{margin:0 0 18px;font-size:15px;color:var(--ink-soft);max-width:56ch;}
   .nav{margin:-6px 0 16px;font-size:14px;}
   .nav a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--rule);}
@@ -131,6 +132,7 @@ document.addEventListener("DOMContentLoaded", __showErrs);
     margin-top:16px;border:1px solid var(--rule);
     background:rgba(255,255,255,.4);padding:16px 18px;min-height:112px;
   }
+  #panel[hidden]{display:none;}
   #pname{font-size:19px;font-weight:600;margin:0 0 2px;display:flex;align-items:center;gap:9px;}
   #pchip{width:16px;height:16px;border:1px solid rgba(0,0,0,.25);flex:0 0 auto;}
   #pmeta{
@@ -161,8 +163,13 @@ document.addEventListener("DOMContentLoaded", __showErrs);
     font-family:ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:.05em;
     color:var(--ink-soft);margin-top:6px;
   }
+  .abouth{
+    font-family:ui-monospace,Menlo,monospace;font-size:10px;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--ink-soft);
+    margin:22px 0 0;padding-top:12px;border-top:1px solid var(--rule);
+  }
   #aquote{
-    margin:16px 0 0;padding-left:14px;border-left:2px solid var(--rule);
+    margin:12px 0 0;padding-left:14px;border-left:2px solid var(--rule);
     font-size:14.5px;font-style:italic;color:var(--ink-soft);
   }
   #abio{margin:12px 0 0;font-size:14.5px;}
@@ -246,8 +253,9 @@ document.addEventListener("DOMContentLoaded", __showErrs);
 <div class="wrap">
 
 <header>
-  <h1>Палитра на круге</h1>
-  <div class="sub">Угол = цветовой тон · Радиус = насыщенность</div>
+  <h1>Urban Sketch Palette</h1>
+  <div class="sub">Мой набор акварели · наборы художников · замесы для города</div>
+  <div class="sub axes">Угол = цветовой тон · Радиус = насыщенность</div>
 </header>
 
 <p class="nav"><a href="table.html">Таблица красок и пигментов →</a></p>
@@ -291,15 +299,15 @@ document.addEventListener("DOMContentLoaded", __showErrs);
 
 <div id="authorbox" hidden>
   <div class="ahead"><h3 id="aname"></h3><div id="ameta"></div></div>
-  <blockquote id="aquote"></blockquote>
-  <p id="abio"></p>
-  <p id="alinks"></p>
+  <figure id="afig"><img id="aexample" alt="" loading="lazy"><figcaption id="acredit"></figcaption></figure>
   <div class="diff">
     <div><div class="diffh" id="dh1"></div><ul id="donly"></ul></div>
     <div><div class="diffh" id="dh3"></div><ul id="dboth"></ul></div>
-    <div><div class="diffh" id="dh2"></div><ul id="dmine"></ul></div>
   </div>
-  <figure id="afig"><img id="aexample" alt="" loading="lazy"><figcaption id="acredit"></figcaption></figure>
+  <div class="diffh abouth">об авторе</div>
+  <blockquote id="aquote"></blockquote>
+  <p id="abio"></p>
+  <p id="alinks"></p>
 </div>
 
 <h2>Памятка по смешиванию · городской скетчинг</h2>
@@ -697,15 +705,12 @@ function drawAuthor(a){
     }
   });
 
-  // три колонки читаются слева направо как диаграмма: его — общее — моё
-  const his=new Set(a.colors);
+  // две колонки: что есть только у автора и что у нас общее
   const only=a.colors.filter(s=>!MINE.has(s));
   const both=a.colors.filter(s=>MINE.has(s));
-  const mineOnly=MY.map(p=>p.sku).filter(s=>!his.has(s));
   document.getElementById("dh1").textContent=`есть у автора, нет у меня — ${only.length}`;
   document.getElementById("dh3").textContent=`общие с автором — ${both.length}`;
-  document.getElementById("dh2").textContent=`есть у меня, нет у автора — ${mineOnly.length}`;
-  [["donly",only],["dboth",both],["dmine",mineOnly]].forEach(([id,list])=>{
+  [["donly",only],["dboth",both]].forEach(([id,list])=>{
     const ul=document.getElementById(id); ul.replaceChildren();
     list.map(paint).sort((x,y)=>(x.a??999)-(y.a??999)).forEach(p=>{
       const li=document.createElement("li");
@@ -819,6 +824,7 @@ const tabs={
   theory:{el:document.getElementById("tab-theory"), txt:"Теоретический"},
 };
 const leadEl=document.querySelector(".lead");
+const panelEl=document.getElementById("panel");
 const sel=document.getElementById("asel");
 const prevBtn=document.getElementById("aprev"), nextBtn=document.getElementById("anext");
 
@@ -834,6 +840,8 @@ function show(which,authorId){
 
   leadEl.textContent = which==="theory" ? TEXTS.leadTheory
                      : which==="author" ? TEXTS.leadAuthor : TEXTS.leadWheel;
+  // в наборе художника панель краски пуста по смыслу — только занимает место
+  panelEl.hidden = which==="author";
   drawAuthor(AUTHOR);
 
   if(which==="theory") drawTheory();
