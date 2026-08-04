@@ -231,6 +231,28 @@ document.addEventListener("DOMContentLoaded", __showErrs);
   .candsub{font-size:13.5px;color:var(--ink-soft);}
   .candsub b{color:var(--ink);font-weight:600;}
   .candsub .nm{color:var(--ink);cursor:pointer;border-bottom:1px dotted var(--rule);}
+
+  /* ---- топ красок у художников ---- */
+  .toprow{display:flex;align-items:center;gap:16px;margin:14px 0 10px;flex-wrap:wrap;}
+  .toplist{
+    display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+    gap:2px 20px;font-size:13.5px;
+  }
+  .top{
+    display:flex;align-items:center;gap:7px;padding:2px 0 2px 6px;cursor:pointer;
+    border-left:2px solid transparent;transition:border-color .2s,background .2s;
+  }
+  .top:hover{color:var(--ink);}
+  .top.hit{border-left-color:var(--ink);background:rgba(255,255,255,.4);}
+  .top .nm{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .top.no .nm{color:var(--ink-soft);}
+  .top .cnt{
+    font-family:ui-monospace,Menlo,monospace;font-size:10px;color:var(--ink-soft);
+    letter-spacing:.06em;flex:0 0 auto;
+  }
+  .dots{display:flex;gap:2px;flex:0 0 auto;}
+  .dots i{width:5px;height:5px;border-radius:50%;background:var(--ink-soft);opacity:.85;}
+  .dots i.off{background:none;box-shadow:inset 0 0 0 1px var(--rule);}
   #warn{
     display:none;border:1px solid #A8422F;background:rgba(168,66,47,.09);
     padding:10px 14px;margin-bottom:16px;font-size:13.5px;
@@ -318,6 +340,13 @@ document.addEventListener("DOMContentLoaded", __showErrs);
 <h2>Кандидаты · чего в наборе нет</h2>
 <p class="lead">Пустые кружки пунктиром на круге — включаются галочкой у вкладок. Каждый берётся не за красоту, а за то, что закрывает дыру или делает то, что замесом не собрать: грануляцию, кроющесть, прозрачность. Под каждым — эквивалентная замена из того, что уже есть.</p>
 <div id="cands"></div>
+
+<h3 id="toph"></h3>
+<p class="lead" id="toplead"></p>
+<div class="toprow">
+  <label class="candtog"><input type="checkbox" id="toponly"><span>только те, которых у меня нет</span></label>
+</div>
+<div class="toplist" id="topused"></div>
 
 <div class="gap" id="rejnote"></div>
 
@@ -579,6 +608,7 @@ function clearPanel(){
     d.setAttribute("stroke-width",d.classList.contains("cand")?1.4:.8));
   document.querySelectorAll(".rec.hit").forEach(r=>r.classList.remove("hit"));
   document.querySelectorAll("#cands .cand.hit").forEach(c=>c.classList.remove("hit"));
+  document.querySelectorAll("#topused .top.hit").forEach(c=>c.classList.remove("hit"));
   markComplement(null);
 }
 
@@ -651,6 +681,8 @@ function select(sku){
   document.querySelectorAll(".rec").forEach(r=>
     r.classList.toggle("hit",(r.dataset.mix||"").split("|").includes(sku)));
   document.querySelectorAll("#cands .cand").forEach(c=>
+    c.classList.toggle("hit",c.dataset.n===sku));
+  document.querySelectorAll("#topused .top").forEach(c=>
     c.classList.toggle("hit",c.dataset.n===sku));
 
   if(MODE==="theory") markComplement(p);
@@ -801,6 +833,53 @@ function drawCandidates(){
   });
 }
 
+/* ---------- топ красок у художников ----------
+   Считаем, сколько наборов содержат каждую краску, и показываем те,
+   что встречаются минимум у двух: это подсказка, чего в наборе не хватает. */
+const TOPMIN=2;
+let TOPONLY=false;
+const useCount=new Map();
+AUTHORS.forEach(a=>new Set(a.colors).forEach(s=>useCount.set(s,(useCount.get(s)||0)+1)));
+const TOPUSED=[...useCount.entries()]
+  .filter(([,k])=>k>=TOPMIN)
+  .map(([sku,k])=>({p:paint(sku),k,by:AUTHORS.filter(a=>a.colors.includes(sku)).map(a=>a.name)}))
+  .sort((x,y)=>y.k-x.k || (x.p.a??999)-(y.p.a??999));
+
+function drawTopUsed(){
+  const host=document.getElementById("topused");
+  host.replaceChildren();
+  const rows=TOPONLY?TOPUSED.filter(r=>!r.p.mine):TOPUSED;
+  rows.forEach(({p,k,by})=>{
+    const d=document.createElement("div");
+    d.className="top"+(p.mine?"":" no"); d.dataset.n=p.sku;
+    d.title=`${p.full} · ${by.join(", ")}`;
+    d.appendChild(swatch(p,p.mine?"":" gone"));
+    const nm=document.createElement("span"); nm.className="nm"; nm.textContent=p.n;
+    d.appendChild(nm);
+    if(p.cand) d.appendChild(tag("кандидат"));
+    else if(!p.mine) d.appendChild(tag("нет"));
+    const dots=document.createElement("span"); dots.className="dots";
+    for(let i=0;i<AUTHORS.length;i++){
+      const t=document.createElement("i"); if(i>=k) t.className="off";
+      dots.appendChild(t);
+    }
+    d.appendChild(dots);
+    const c=document.createElement("span"); c.className="cnt"; c.textContent=`${k}/${AUTHORS.length}`;
+    d.appendChild(c);
+    d.addEventListener("click",()=>select(p.sku));
+    host.appendChild(d);
+  });
+
+  const have=TOPUSED.filter(r=>r.p.mine).length;
+  document.getElementById("toph").textContent=
+    `Что чаще всего берут художники — ${TOPUSED.length} ${plural(TOPUSED.length,"краска","краски","красок")}`;
+  document.getElementById("toplead").textContent=
+    `Краски, которые встретились минимум в ${TOPMIN} наборах из ${AUTHORS.length}. `+
+    `Всего у художников ${useCount.size} разных красок; из этой частой части у меня есть ${have}, `+
+    `нет — ${TOPUSED.length-have}. Точки справа — сколько наборов её содержат, `+
+    `наведите на строку, чтобы увидеть кого.`;
+}
+
 /* ---------- «дыры» и подвал ---------- */
 function drawNotes(){
   document.getElementById("gapnote").innerHTML=TEXTS.gaps;
@@ -881,9 +960,17 @@ candBox.addEventListener("change",()=>{ SHOWCAND=candBox.checked; show(MODE,AUTH
 const ghostBox=document.getElementById("ghostbox");
 ghostBox.addEventListener("change",()=>{ GHOST=ghostBox.checked; show(MODE,AUTHOR&&AUTHOR.id); });
 
+const topBox=document.getElementById("toponly");
+topBox.addEventListener("change",()=>{
+  TOPONLY=topBox.checked;
+  drawTopUsed();
+  if(selected) select(selected);
+});
+
 try {
   drawRecipes();
   drawCandidates();
+  drawTopUsed();
   drawNotes();
   show("all");
 } catch (e) {
