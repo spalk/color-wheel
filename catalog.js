@@ -2,7 +2,7 @@
    Источники: карта CIELab danielsmith.com/color-map, справочник пигментов DS,
    дот-карты художников из authors/<автор>/palette.json.
    Геометрия (a, c) и hex посчитаны из измеренного Lab: см. scripts/ds_build.py.
-   Красок: 92   ·   наборов художников: 8 */
+   Красок: 88   ·   наборов художников: 8 */
 
 const DS = {
   "284600009": {n:"Buff Titanium",pig:"PW6:1",a:13.1,c:0.32,hex:"#E1C887",ser:1,gran:1,tr:1},
@@ -30,14 +30,13 @@ const DS = {
   "284600063": {n:"Olive Green",pig:"PY97 PB29 PBr7",a:6.0,c:0.48,hex:"#715B16",ser:1,gran:1,tr:2},
   "284600064": {n:"Organic Vermilion",pig:"PR188",a:114.6,c:1.0,hex:"#DB1908",ser:2,gran:0,tr:2},
   "284600065": {n:"Payne's Gray",pig:"PB29 PBk9",a:256.8,c:0.09,hex:"#3A434A",ser:1,gran:1,tr:2},
+  "284600066": {n:"Perinone Orange",pig:"PO43",a:99.4,c:0.93,hex:"#FE3C0E",ser:3,gran:0,tr:4},
   "284600068": {n:"Permanent Brown",pig:"PBr25",a:110.6,c:0.49,hex:"#6F2418",ser:2,gran:0,tr:3},
   "284600071": {n:"Permanent Orange",pig:"PO62",a:81.2,c:0.88,hex:"#FF641F",ser:3,gran:0,tr:2},
-  "284600074": {n:"Perylene Maroon",pig:"PR179",a:126.5,c:0.56,hex:"#6A1816",ser:3,gran:0,tr:4},
   "284600077": {n:"Phthalo Blue (Green Shade)",pig:"PB15:3",a:263.3,c:0.86,hex:"#005585",ser:1,gran:0,tr:4},
   "284600082": {n:"Prussian Blue",pig:"PB27",a:251.0,c:0.58,hex:"#073062",ser:1,gran:1,tr:3},
   "284600084": {n:"Pyrrol Red",pig:"PR254",a:124.6,c:0.89,hex:"#AE1112",ser:3,gran:0,tr:3},
   "284600085": {n:"Pyrrol Scarlet",pig:"PR255",a:119.1,c:0.96,hex:"#CD170E",ser:3,gran:0,tr:3},
-  "284600086": {n:"Quinacridone Burnt Orange",pig:"PO48",a:86.6,c:0.67,hex:"#B74216",ser:2,gran:1,tr:2},
   "284600088": {n:"Quinacridone Coral",pig:"PR209",a:140.5,c:0.93,hex:"#F1344D",ser:2,gran:0,tr:2},
   "284600090": {n:"Quinacridone Magenta",pig:"PR202",a:161.3,c:0.81,hex:"#941C4D",ser:2,gran:0,tr:3},
   "284600091": {n:"Quinacridone Red",pig:"PV19",a:141.3,c:0.93,hex:"#B0122C",ser:2,gran:0,tr:3},
@@ -50,7 +49,6 @@ const DS = {
   "284600103": {n:"Sepia",pig:"PBr7 PBk9",a:57.2,c:0.23,hex:"#4D3521",ser:1,gran:1,tr:2},
   "284600105": {n:"Ultramarine Turquoise",pig:"PB29 PG7",a:283.0,c:0.73,hex:"#00584E",ser:1,gran:1,tr:2},
   "284600106": {n:"Ultramarine Blue",pig:"PB29",a:242.8,c:0.97,hex:"#194BC7",ser:1,gran:1,tr:3},
-  "284600108": {n:"Ultramarine Violet",pig:"PV15",a:200.0,c:0.48,hex:"#A186C5",ser:1,gran:1,tr:2},
   "284600109": {n:"Undersea Green",pig:"PB29 PO48 PY150",a:336.1,c:0.27,hex:"#424A26",ser:1,gran:1,tr:3},
   "284600110": {n:"Van Dyck Brown",pig:"PBr7",a:58.4,c:0.2,hex:"#4B3625",ser:1,gran:1,tr:1},
   "284600111": {n:"Venetian Red",pig:"PR101",a:113.5,c:0.53,hex:"#892F22",ser:1,gran:1,tr:3},
@@ -65,7 +63,6 @@ const DS = {
   "284600141": {n:"Lunar Red Rock",pig:"PR101",a:118.8,c:0.26,hex:"#6F413A",ser:1,gran:1,tr:2},
   "284600142": {n:"Cascade Green",pig:"PBr7 PB15",a:289.6,c:0.32,hex:"#205445",ser:1,gran:1,tr:3},
   "284600145": {n:"Sedona Genuine",pig:"натуральный минерал",a:86.4,c:0.47,hex:"#D3744D",ser:2,gran:1,tr:1},
-  "284600148": {n:"Potter's Pink",pig:"PR233",a:136.8,c:0.22,hex:"#D49D9F",ser:3,gran:1,tr:2},
   "284600156": {n:"Hematite Genuine",pig:"натуральный минерал",a:40.1,c:0.08,hex:"#837A70",ser:3,gran:1,tr:2},
   "284600161": {n:"Tiger's Eye Genuine",pig:"натуральный минерал",a:43.4,c:0.27,hex:"#AC8B64",ser:2,gran:1,tr:1},
   "284600162": {n:"Burnt Tiger's Eye Genuine",pig:"натуральный минерал",a:74.4,c:0.32,hex:"#B27A5A",ser:2,gran:1,tr:2},
@@ -76,7 +73,6 @@ const DS = {
   "284600183": {n:"Lunar Blue",pig:"PBk11 PB15",a:269.2,c:0.34,hex:"#5591A3",ser:2,gran:1,tr:2},
   "284600184": {n:"Cadmium Yellow Medium Hue",pig:"PY53 PY151 PY83",a:11.0,c:0.89,hex:"#FFC329",ser:3,gran:0,tr:2},
   "284600185": {n:"Permanent Alizarin Crimson",pig:"PR177 PV19 PR149",a:131.1,c:0.84,hex:"#990F18",ser:2,gran:0,tr:3},
-  "284600187": {n:"Transparent Pyrrol Orange",pig:"PO71",a:113.1,c:0.86,hex:"#C42310",ser:2,gran:0,tr:2},
   "284600188": {n:"Shadow Violet",pig:"PO73 PB29 PG18",a:160.4,c:0.14,hex:"#644E56",ser:2,gran:1,tr:1},
   "284600190": {n:"Serpentine Genuine",pig:"натуральный минерал",a:347.1,c:0.55,hex:"#73731A",ser:4,gran:1,tr:1},
   "284600191": {n:"Piemontite Genuine",pig:"натуральный минерал",a:131.0,c:0.3,hex:"#663535",ser:4,gran:1,tr:2},
